@@ -19,18 +19,18 @@ export default function Dashboard({ tasks, setTasks, energyBoost = 0 }) {
     })[0];
 
   return (
-    <div>
+    <div className="dashboard-page">
 
       {/* ── Page title ── */}
-      <div style={{ marginBottom: 24 }}>
-        <h1 style={{ fontSize: 26, fontWeight: 800, margin: 0 }}>Dashboard</h1>
-        <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 14, marginTop: 4 }}>
+      <div className="dashboard-header">
+        <h1 className="dashboard-title">Dashboard</h1>
+        <p className="dashboard-date">
           {new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
         </p>
       </div>
 
       {/* ── Stat cards row ── */}
-      <div className="top-cards" style={{ marginBottom: 20 }}>
+      <div className="top-cards">
 
         <EnergyCard tasks={tasks} boost={energyBoost} />
         <StreakCard />
@@ -43,20 +43,16 @@ export default function Dashboard({ tasks, setTasks, energyBoost = 0 }) {
           </div>
           {nextTask ? (
             <>
-              <div className="stat-card-value" style={{ fontSize: 15, color: "white", marginBottom: 6 }}>
+              <div className="stat-card-value next-event-text">
                 {nextTask.text}
               </div>
-              <div style={{
-                display: "inline-flex", alignItems: "center", gap: 6,
-                background: "rgba(124,58,237,0.15)", border: "1px solid rgba(124,58,237,0.25)",
-                padding: "4px 10px", borderRadius: 8, fontSize: 12, color: "#c4b5fd"
-              }}>
+              <div className="next-event-pill">
                 🕐 {nextTask.startTime} — {nextTask.endTime}
               </div>
             </>
           ) : (
             <>
-              <div className="stat-card-value" style={{ fontSize: 14, color: "rgba(255,255,255,0.35)" }}>
+              <div className="stat-card-value stat-card-empty">
                 No upcoming events
               </div>
               <div className="stat-card-sub">Schedule a task for today</div>
@@ -72,13 +68,13 @@ export default function Dashboard({ tasks, setTasks, energyBoost = 0 }) {
       <div className="main-grid">
 
         {/* Left column */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        <div className="dashboard-col">
           <ScheduleList tasks={tasks} setTasks={setTasks} />
           <ProgressBar  tasks={tasks} />
         </div>
 
         {/* Right column */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        <div className="dashboard-col">
           <AISuggestions tasks={tasks} setTasks={setTasks} />
           <Suggestion    tasks={tasks} />
         </div>
