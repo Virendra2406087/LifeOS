@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import axios from "axios";
+import API from "../app/api";
 
+const API_URL = import.meta.env.VITE_API_URL;
 export default function Login() {
 
   const [email, setEmail]       = useState("");
@@ -17,7 +18,7 @@ export default function Login() {
     setError("");
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
+      const res = await API.post("/api/auth/login", {
         email, password, remember
       });
 
@@ -48,7 +49,7 @@ export default function Login() {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:5000/api/auth/google";
+    window.location.href = `${API_URL}/api/auth/google`;
   };
 
   const handleKeyDown = (e) => { if (e.key === "Enter") handleLogin(); };

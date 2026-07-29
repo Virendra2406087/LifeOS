@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import axios from "axios";
+import API from "../app/api";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Register() {
 
@@ -33,7 +34,7 @@ export default function Register() {
     setError("");
 
     try {
-      await axios.post("http://localhost:5000/api/auth/register", {
+      await API.post("/api/auth/register", {
         name, email, password
       });
 
@@ -49,7 +50,7 @@ export default function Register() {
   };
 
   const handleGoogleLogin = () => {
-    window.open("http://localhost:5000/api/auth/google", "_self");
+    window.open(`${API_URL}/api/auth/google`, "_self");
   };
 
   return (
