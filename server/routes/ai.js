@@ -25,6 +25,72 @@ const LOW_ENERGY_SEEDS = [
   "Focus on breathing and relaxation",
 ];
 
+
+router.post("/copilot", async (req, res) => {
+  try {
+    const { message, history = [], tasks = [] } = req.body;
+
+    if (!message || !message.trim()) {
+      return res.status(400).json({ error: "Message is required" });
+    }
+
+    const taskContext = tasks.length === 0
+      ? "The user currently has no tasks."
+      : `The user's current tasks:\n${tasks
+          .map((t, i) => `${i + 1}. "${t.text}" — priority: ${t.priority || "medium"}, completed: ${t.completed}, date: ${t.date || "n/a"}`)
+          .join("\n")}`;
+
+    const systemContext = `
+You are LifeOS Copilot, a helpful productivity assistant inside the LifeOS app.
+Be concise — 1 to 3 sentences unless the user asks for detail.
+Use the task data below to give specific, grounded answers instead of generic advice.
+
+${taskContext}
+`;
+
+    const model = genAI.getGenerativeModel({
+      model: "gemini-3.5-flash-lite",
+      generationConfig: {
+        temperature: 0.9,
+        topP: 0.95,
+        topK: 40,
+      },
+    });
+
+    // Gemini's chat history format needs role: "user" | "model"
+    const chatHistory = history.map((m) => ({
+      role: m.sender === "You" ? "user" : "model",
+      parts: [{ text: m.text }],
+    }));
+
+    const chat = model.startChat({
+      history: [
+        { role: "user", parts: [{ text: systemContext }] },
+        { role: "model", parts: [{ text: "Understood, I'll use this context to help." }] },
+        ...chatHistory,
+      ],
+    });
+
+    const result = await chat.sendMessage(message);
+    const reply = result.response.text().trim();
+
+    res.json({ success: true, reply });
+
+  } catch (error) {
+    console.error("Copilot AI ERROR:", error);
+
+    if (error.status === 429) {
+      return res.json({
+        success: true,
+        reply: "I'm getting a lot of requests right now — try again in a moment.",
+        fallback: true,
+      });
+    }
+
+    res.status(500).json({ success: false, error: "Copilot failed to respond" });
+  }
+});
+
 router.post("/suggest", async (req, res) => {
   try {
     const { tasks = [], mode = "normal" } = req.body;
@@ -77,9 +143,74 @@ Current tasks:
 ${taskSummary}
 `;
 
+router.post("/goal-plan", async (req, res) => {
+  try {
+    const { goal } = req.body;
+
+    if (!goal || !goal.trim()) {
+      return res.status(400).json({ success: false, error: "Goal is required" });
+    }
+
+    const prompt = `
+You are a learning/goal-planning coach. Create a realistic, appropriately-scoped roadmap for this goal: "${goal.trim()}"
+
+Rules:
+- Decide the right timeframe and structure YOURSELF based on how big or small this goal actually is.
+  - A small goal (e.g. "learn basic HTML") might only need 1-2 weeks or even a few days.
+  - A large goal (e.g. "become a senior backend engineer") might need 8-16 weeks or more, possibly grouped into phases/months instead of weeks.
+- Use whatever time unit fits best: "Week 1", "Day 1-3", "Month 1", "Phase 1: Foundations", etc. — pick what's natural for this specific goal.
+- Return ONLY valid JSON, no markdown code fences, no explanation, no extra text.
+- The JSON must be an array of objects, each shaped exactly like: { "period": "Week 1", "tasks": ["task 1", "task 2", "task 3"] }
+- Each period should have 2-5 short, specific, actionable tasks (under 12 words each).
+- Tasks should progress logically — foundational work early on, applied/advanced work later.
+- Be specific to the goal, not generic advice.
+- Choose however many periods are actually appropriate — don't pad or artificially shorten it.
+
+Example format:
+[{"period":"Week 1","tasks":["Learn X basics","Set up environment"]},{"period":"Week 2","tasks":["Build first small project"]}]
+`;
+
+    const model = genAI.getGenerativeModel({
+      model: "gemini-3.5-flash-lite",
+      generationConfig: {
+        temperature: 0.7,
+        topP: 0.9,
+        topK: 40,
+      },
+    });
+
+    const result = await model.generateContent(prompt);
+    const rawText = result.response.text().trim();
+
+    const cleaned = rawText.replace(/^```json\s*/i, "").replace(/```\s*$/i, "").trim();
+
+    let plan;
+    try {
+      plan = JSON.parse(cleaned);
+    } catch (parseErr) {
+      console.error("Goal plan JSON parse failed:", cleaned);
+      return res.status(502).json({ success: false, error: "AI returned an invalid plan format" });
+    }
+
+    if (!Array.isArray(plan) || plan.length === 0) {
+      return res.status(502).json({ success: false, error: "AI returned an empty or invalid plan" });
+    }
+
+    res.json({ success: true, plan });
+
+  } catch (error) {
+    console.error("Goal Planner AI ERROR:", error);
+
+    if (error.status === 429) {
+      return res.status(429).json({ success: false, error: "AI is busy, please try again shortly" });
+    }
+
+    res.status(500).json({ success: false, error: "Failed to generate goal plan" });
+  }
+});
     /* ── High temperature = more creative/varied output ── */
     const model  = genAI.getGenerativeModel({
-      model: "gemini-2.0-flash-lite",
+      model: "gemini-3.5-flash-lite",
       generationConfig: {
         temperature: 0.9,
         topP:        0.95,

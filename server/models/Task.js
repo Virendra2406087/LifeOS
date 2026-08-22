@@ -13,9 +13,7 @@ const TaskSchema = new mongoose.Schema({
     required: true
   },
 
-  // Store as String "YYYY-MM-DD" — avoids UTC timezone shift bug
-  // If stored as Date, MongoDB converts to UTC and shifts the day
-  // for users in UTC+ timezones (e.g. India UTC+5:30)
+  // YYYY-MM-DD
   date: {
     type: String,
     required: true
@@ -31,6 +29,28 @@ const TaskSchema = new mongoose.Schema({
     required: true
   },
 
+  // ==========================================
+  // ML FEATURES
+  // ==========================================
+
+  importance: {
+    type: Number,
+    min: 1,
+    max: 3,
+    default: 2
+  },
+
+  category: {
+    type: Number,
+    min: 1,
+    max: 4,
+    default: 1
+  },
+
+  // ==========================================
+  // Existing priority
+  // ==========================================
+
   priority: {
     type: String,
     default: "purple"
@@ -41,6 +61,9 @@ const TaskSchema = new mongoose.Schema({
     default: false
   }
 
-}, { timestamps: true });
+}, {
+  timestamps: true
+});
 
-module.exports = mongoose.model("Task", TaskSchema);
+module.exports =
+  mongoose.model("Task", TaskSchema);

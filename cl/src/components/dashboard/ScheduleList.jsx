@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import toast from "react-hot-toast";
+import API from "../../app/api";
 
 export default function ScheduleList({ tasks = [], setTasks }) {
 
@@ -152,7 +152,6 @@ export default function ScheduleList({ tasks = [], setTasks }) {
     setConfirmTask(null);
     setExpiredTask(null);
     setRescheduleTask(null);
-    const token = localStorage.getItem("token");
     try {
       const isLocal = !taskId || taskId.toString().length !== 24;
       if (isLocal) {
@@ -160,11 +159,7 @@ export default function ScheduleList({ tasks = [], setTasks }) {
           (t._id === taskId || t.id === taskId) ? { ...t, completed: true } : t
         ));
       } else {
-        await axios.patch(
-          `http://localhost:5000/api/tasks/${taskId}`,
-          { completed: true },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+        await API.patch(`/api/tasks/${taskId}`, { completed: true });
         setTasks(prev => prev.map(t =>
           t._id === taskId ? { ...t, completed: true } : t
         ));
@@ -179,7 +174,6 @@ export default function ScheduleList({ tasks = [], setTasks }) {
   /* ── Reschedule task to a new date ── */
   const doReschedule = async (task, newDate) => {
     if (!newDate) { toast.error("Please pick a date"); return; }
-    const token = localStorage.getItem("token");
     const taskId = task._id || task.id;
     const isLocal = !taskId || taskId.toString().length !== 24;
 
@@ -191,11 +185,7 @@ export default function ScheduleList({ tasks = [], setTasks }) {
             : t
         ));
       } else {
-        await axios.patch(
-          `http://localhost:5000/api/tasks/${taskId}`,
-          { date: new Date(newDate).toISOString() },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+        await API.patch(`/api/tasks/${taskId}`, { date: new Date(newDate).toISOString() });
         setTasks(prev => prev.map(t =>
           t._id === taskId
             ? { ...t, date: new Date(newDate).toISOString() }
@@ -214,14 +204,10 @@ export default function ScheduleList({ tasks = [], setTasks }) {
 
   /* ── Remove task ── */
   const removeTask = async (taskId) => {
-    const token = localStorage.getItem("token");
     try {
       const isLocal = !taskId || taskId.toString().length !== 24;
       if (!isLocal) {
-        await axios.delete(
-          `http://localhost:5000/api/tasks/${taskId}`,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+        await API.delete(`/api/tasks/${taskId}`);
       }
       setTasks(prev => prev.filter(t => (t._id || t.id) !== taskId));
       toast.success("Task removed 🗑️");

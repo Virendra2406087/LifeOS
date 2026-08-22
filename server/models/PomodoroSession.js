@@ -1,9 +1,29 @@
 const mongoose = require("mongoose");
 
-const schema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  duration: Number,
-  completedAt: Date
-});
+const schema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true
+    },
 
-module.exports = mongoose.model("PomodoroSession", schema);
+    duration: {
+      type: Number,
+      required: true
+    },
+
+    completedAt: {
+      type: Date,
+      default: Date.now
+    }
+  },
+  {
+    timestamps: true
+  }
+);
+
+module.exports = mongoose.model(
+  "PomodoroSession",
+  schema
+);

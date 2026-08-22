@@ -102,7 +102,9 @@ export default function AISuggestions({ tasks = [], setTasks }) {
     <div className="ai-card">
 
       <div className="ai-header">
-        <FaRobot className="ai-icon" />
+        <span className="lifeos-ai-icon">
+      ✨
+    </span>
         <h3>AI Suggestions</h3>
         <button
           className="ai-refresh"
@@ -133,10 +135,12 @@ export default function AISuggestions({ tasks = [], setTasks }) {
 
           <div className="ai-buttons">
             <button className="ai-accept" onClick={() => handleAccept(s)}>
-              <FaCheck /> Accept
+              {/* <FaCheck /> */}
+               ➕
             </button>
             <button className="ai-ignore" onClick={() => handleIgnore(s)}>
-              <FaTimes /> Ignore
+              {/* <FaTimes />  */}
+              ➖
             </button>
           </div>
 

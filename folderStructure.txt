@@ -1,0 +1,58 @@
+LifeOS/
+│                 # Express Backend
+├── ml/                      # Python ML Service
+│
+│   ├── api/                 
+│   │   ├── app.py
+│   │   ├── routes.py
+│   │   ├── modelLoader.py
+│   │  
+│   │
+│   ├── data/                # Training datasets
+│   │   ├── productivity.csv
+│   │   ├── priority.csv
+│   │   ├── duration.csv
+│   │   ├── burnout.csv
+│   │   ├── scheduler.csv
+│   │   ├── habits.csv
+│   │   └── task.csv
+│   │
+│   ├── models/              # Trained models
+│   │   ├── productivity.pkl
+│   │   ├── priority.pkl
+│   │   ├── duration.pkl
+│   │   ├── burnout.pkl
+│   │   ├── scheduler.pkl
+│   │   └── habits.pkl
+│   │   └── habit.pkl
+│   │
+│   ├── training/            # Model training scripts
+│   │   ├── trainProductivity.py
+│   │   ├── trainPriority.py
+│   │   ├── trainDuration.py
+│   │   ├── trainBurnout.py
+│   │   ├── trainScheduler.py
+│   │   └── trainHabits.py
+│   │
+│   ├── prediction/          # Prediction logic
+│   │   ├── predictProductivity.py
+│   │   ├── predictPriority.py
+│   │   ├── predictDuration.py
+│   │   ├── predictBurnout.py
+│   │   ├── predictScheduler.py
+│   │   └── predictHabits.py
+│   │
+│   │
+│   │
+│   │
+│   │
+│   ├── utils/               # Shared utilities
+│   │   ├── featureEngineering.py
+│   │   ├── metrics.py
+│   │   └── preprocess.py
+│   │
+│   │
+│   ├── requirements.txt
+│   ├── Dockerfile
+│   ├── .env
+│   └── README.md

@@ -1,0 +1,391 @@
+/* ================================
+   BACKDROP
+================================ */
+
+.ai-panel-backdrop {
+  position: fixed;
+  top: 0;
+  left: 250px; /* same width as main Sidebar */
+  right: 0;
+  bottom: 0;
+
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+
+  z-index: 40;
+}
+
+
+/* ================================
+   AI SIDEBAR / PANEL
+================================ */
+
+.ai-sidebar {
+  position: fixed;
+
+  top: 0;
+  left: 250px; /* IMPORTANT: leave space for main Sidebar */
+  right: 0;
+  height: 100vh;
+
+  width: auto;
+
+  background: #111111;
+
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+
+  z-index: 50;
+
+  display: flex;
+  flex-direction: column;
+
+  box-shadow: -8px 0 30px rgba(0, 0, 0, 0.35);
+
+  animation: sidebar-slide-in 0.25s ease-out;
+}
+
+
+/* ================================
+   SLIDE ANIMATION
+================================ */
+
+@keyframes sidebar-slide-in {
+  from {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+
+/* ================================
+   HEADER
+================================ */
+
+.ai-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 20px 32px 14px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+.ai-sidebar-header h2 {
+  color: #ffffff;
+
+  font-size: 1.25rem;
+
+  margin: 0;
+}
+
+
+/* ================================
+   CLOSE BUTTON
+================================ */
+
+.ai-sidebar-close {
+  background: rgba(255, 255, 255, 0.06);
+
+  border: none;
+
+  color: rgba(255, 255, 255, 0.7);
+
+  width: 36px;
+  height: 36px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  font-size: 1rem;
+
+  transition: 0.2s ease;
+}
+
+
+.ai-sidebar-close:hover {
+  background: rgba(255, 255, 255, 0.12);
+
+  color: #ffffff;
+}
+
+
+/* ================================
+   NAVIGATION
+================================ */
+
+.ai-sidebar-nav {
+  display: flex;
+
+  flex-direction: row;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  padding: 14px 32px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+.ai-sidebar-nav-item {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 10px 16px;
+
+  background: transparent;
+
+  border: 1px solid transparent;
+
+  border-radius: 10px;
+
+  color: rgba(255, 255, 255, 0.65);
+
+  font-size: 0.9rem;
+
+  cursor: pointer;
+
+  text-align: left;
+
+  transition: 0.2s ease;
+}
+
+
+.ai-sidebar-nav-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+
+  color: #ffffff;
+}
+
+
+.ai-sidebar-nav-item.active {
+  background: rgba(139, 92, 246, 0.15);
+
+  border-color: rgba(139, 92, 246, 0.4);
+
+  color: #ffffff;
+}
+
+
+/* ================================
+   CONTENT
+================================ */
+
+.ai-sidebar-content {
+  flex: 1;
+
+  overflow-y: auto;
+
+  padding: 24px 32px 40px;
+}
+
+
+/* ================================
+   CONTENT SECTIONS
+================================ */
+
+.ai-sidebar-section {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(320px, 1fr));
+
+  gap: 16px;
+
+  max-width: 1400px;
+
+  margin: 0 auto;
+}
+
+
+/* ================================
+   SCROLLBAR
+================================ */
+
+.ai-sidebar-content::-webkit-scrollbar {
+  width: 7px;
+}
+
+.ai-sidebar-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ai-sidebar-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+
+  border-radius: 10px;
+}
+
+.ai-sidebar-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+
+/* ================================
+   TABLET
+================================ */
+
+@media (max-width: 900px) {
+
+  .ai-sidebar {
+    left: 220px;
+  }
+
+  .ai-panel-backdrop {
+    left: 220px;
+  }
+
+  .ai-sidebar-header,
+  .ai-sidebar-nav,
+  .ai-sidebar-content {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .ai-sidebar-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 768px) {
+
+  /*
+     On mobile the main Sidebar becomes an overlay,
+     so AI panel can use the complete screen.
+  */
+
+  .ai-sidebar {
+    left: 0;
+
+    width: 100vw;
+
+    border-left: none;
+  }
+
+  .ai-panel-backdrop {
+    left: 0;
+  }
+
+  .ai-sidebar-header {
+    padding: 16px;
+  }
+
+  .ai-sidebar-nav {
+    flex-direction: column;
+
+    padding: 12px 16px;
+  }
+
+  .ai-sidebar-nav-item {
+    width: 100%;
+  }
+
+  .ai-sidebar-content {
+    padding: 20px 16px 30px;
+  }
+
+  .ai-sidebar-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ai-sidebar-section-full {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.ai-sidebar-section-full .copilot-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.ai-sidebar-section-full .chat-window {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.ai-sidebar-section-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.ai-sidebar-section-grid > * {
+  min-width: 0; /* prevents grid children from overflowing on long text/numbers */
+}
+
+/* Stack to a single column on narrow sidebars instead of squishing cards */
+@media (max-width: 640px) {
+  .ai-sidebar-section-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.meeting-add-btn {
+  display: flex; align-items: center; gap: 6px;
+  margin: 8px 0; padding: 8px 14px; border-radius: 8px;
+  background: #3b82f6; color: white; border: none; cursor: pointer;
+  font-size: 0.85rem;
+}
+.meeting-add-btn:hover { background: #2563eb; }
+
+.meeting-form-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  display: flex; align-items: center; justify-content: center; z-index: 1000;
+}
+.meeting-form-card { width: 380px; max-width: 90vw; padding: 20px; }
+.meeting-form-header {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;
+}
+.meeting-form-title { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+.meeting-form-close { background: none; border: none; cursor: pointer; opacity: 0.7; }
+.meeting-form-close:hover { opacity: 1; }
+
+.meeting-form-body { display: flex; flex-direction: column; gap: 12px; }
+.meeting-form-body label {
+  display: flex; flex-direction: column; gap: 4px; font-size: 0.8rem; opacity: 0.85;
+}
+.meeting-form-body input {
+  padding: 8px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.05); color: inherit; font-size: 0.9rem;
+}
+.meeting-form-row { display: flex; gap: 10px; }
+.meeting-form-row label { flex: 1; }
+
+.meeting-form-colors { display: flex; gap: 8px; margin-top: 4px; }
+.meeting-color-dot {
+  width: 22px; height: 22px; border-radius: 50%; border: 2px solid transparent;
+  cursor: pointer;
+}
+.meeting-color-dot.selected { border-color: white; }
+
+.meeting-form-error { color: #ef4444; font-size: 0.8rem; margin: 0; }
+
+.meeting-form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px; }
+.meeting-form-actions button {
+  padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; font-size: 0.85rem;
+}
+.meeting-form-actions button:not(.primary) { background: rgba(255,255,255,0.08); color: inherit; }
+.meeting-form-actions .primary { background: #3b82f6; color: white; }
+.meeting-form-actions .primary:disabled { opacity: 0.6; cursor: not-allowed; }

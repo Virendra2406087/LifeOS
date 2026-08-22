@@ -41,7 +41,7 @@ export default function AddTaskForm({ addTask }) {
 
     try {
 
-      const res = await API.post("/api/tasks", task);
+      const res = await API.post("/tasks", task);
 
       if (addTask) addTask(res.data);
 

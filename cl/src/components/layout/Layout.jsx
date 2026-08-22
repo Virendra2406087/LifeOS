@@ -13,7 +13,7 @@ export default function Layout({
   return (
     <div className="app-layout">
 
-      <Sidebar />
+      <Sidebar tasks={tasks} setTasks={setTasks} />
 
       <div className="main-layout">
 

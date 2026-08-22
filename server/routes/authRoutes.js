@@ -5,7 +5,9 @@ const jwt      = require("jsonwebtoken");
 const passport = require("passport");
 const User     = require("../models/User");
 
-const SECRET = process.env.JWT_SECRET || "lifeos_secret_key";
+if (!process.env.JWT_SECRET) throw new Error("JWT_SECRET is not set");
+const SECRET = process.env.JWT_SECRET;
+const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
 
 /* ── REGISTER ── */
 router.post("/register", async (req, res) => {
@@ -81,12 +83,15 @@ router.get(
   "/google/callback",
   passport.authenticate("google", {
     session: false,
-    failureRedirect: "http://localhost:5173/login?error=google_failed"
+    failureRedirect: `${CLIENT_URL}/login?error=google_failed`
   }),
   (req, res) => {
-    const { user, token } = req.user;
+    const { user, token, isConnectFlow } = req.user;
 
-    // Use the stored memberSince from DB (not today's date every time)
+    if (isConnectFlow) {
+      return res.redirect(`${CLIENT_URL}/dashboard?gmail=connected`);
+    }
+
     const profile = JSON.stringify({
       name:        user.name,
       email:       user.email,
@@ -97,8 +102,7 @@ router.get(
     });
 
     const params = new URLSearchParams({ token, user: profile });
-    res.redirect(`http://localhost:5173/auth/callback?${params}`);
+    res.redirect(`${CLIENT_URL}/auth/callback?${params}`);
   }
 );
-
 module.exports = router;

@@ -1,0 +1,117 @@
+/*
+  Sidebar.css
+  -----------
+  Extracted from the inline `style={{...}}` attributes and the inline
+  <style> block that used to live inside Sidebar.jsx.
+
+  NOTE: Layout classes like .sidebar, .sidebar-logo, .menu-box,
+  .sidebar-user, .sidebar-popup-menu etc. were already styled in your
+  existing stylesheet (they had no inline styles in the original file),
+  so they are NOT redefined here to avoid overriding your theme. This
+  file only contains what used to be inline, plus the new AI Features
+  trigger.
+*/
+
+/* ── Mobile hamburger button ── */
+.sidebar-hamburger {
+  display: none;
+  position: fixed;
+  top: 14px;
+  left: 16px;
+  z-index: 300;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(13, 13, 26, 0.95);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Mobile overlay backdrop ── */
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 199;
+}
+
+.sidebar {
+  z-index: 200;
+}
+
+.sidebar-spacer {
+  flex: 1;
+}
+
+/* ── AI Features trigger (styled like a menu-box, but a <button>) ── */
+.ai-features-trigger {
+  width: 100%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+/* ── User popup ── */
+.sidebar-popup-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.sidebar-popup-name {
+  font-weight: 600;
+  font-size: 13px;
+  color: white;
+  margin: 0;
+}
+
+.sidebar-popup-email {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0;
+}
+
+/* ── User row footer ── */
+.sidebar-user {
+  cursor: pointer;
+}
+
+.sidebar-user-dots {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 16px;
+  padding-right: 2px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .sidebar-hamburger {
+    display: flex !important;
+  }
+
+  .sidebar-backdrop {
+    display: block !important;
+  }
+
+  .sidebar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 200;
+    box-shadow: 4px 0 32px rgba(0, 0, 0, 0.5);
+  }
+
+  .sidebar.sidebar-mobile-open {
+    transform: translateX(0);
+  }
+}

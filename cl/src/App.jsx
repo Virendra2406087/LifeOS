@@ -15,6 +15,7 @@ import Profile     from "./pages/Profile";
 import Login           from "./pages/Login";
 import Register        from "./pages/Register";
 import GoogleCallback  from "./pages/GoogleCallback";
+import { AIPanelProvider } from "./context/AIPanelContext";
 const API_URL = import.meta.env.VITE_API_URL;
 
 function Protected({ children }) {
@@ -56,7 +57,7 @@ export default function App() {
     const token = localStorage.getItem("token");
     if (!token) return;
     axios
-      .get(`${API_URL}/api/tasks`, {
+      .get(`${API_URL}/tasks`, {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(res => setTasks(res.data))
@@ -73,7 +74,7 @@ export default function App() {
     const token = localStorage.getItem("token");
     try {
       const res = await axios.post(
-        `${API_URL}/api/tasks`,
+        `${API_URL}/tasks`,
         taskData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -96,7 +97,7 @@ export default function App() {
 
     try {
       const res = await axios.put(
-        `${API_URL}/api/tasks/${id}`,
+        `${API_URL}/tasks/${id}`,
         { completed: !task.completed },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -118,7 +119,7 @@ export default function App() {
     setTasks(prev => prev.filter(t => (t._id || t.id) !== id));
 
     try {
-      await axios.delete(`${API_URL}/api/tasks/${id}`, {
+      await axios.delete(`${API_URL}/tasks/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
     } catch (err) {
@@ -144,36 +145,38 @@ export default function App() {
   );
 
   return (
-    <BrowserRouter>
-      <Toaster position="top-right" />
-      <Routes>
-        <Route path="/"              element={<LandingPage />} />
-        <Route path="/auth/callback" element={<GoogleCallback />} />
-        <Route path="/login"         element={<Login />} />
-        <Route path="/register"      element={<Register />} />
-        <Route
-          path="/dashboard"
-          element={withLayout(
-            <Dashboard tasks={tasks} setTasks={setTasks} energyBoost={energyBoost} />
-          )}
-        />
-        <Route
-          path="/tasks"
-          element={withLayout(
-            <Tasks
-              tasks={tasks}
-              addTask={addTask}
-              toggleTask={toggleTask}
-              deleteTask={deleteTask}
-            />
-          )}
-        />
-        <Route path="/analytics"     element={withLayout(<Analytics tasks={tasks} />)} />
-        <Route path="/history"       element={withLayout(<History tasks={tasks} />)} />
-        <Route path="/settings"      element={withLayout(<Settings />)} />
-        <Route path="/profile"       element={withLayout(<Profile tasks={tasks} />)} />
-        <Route path="/notifications" element={withLayout(<BellIcon tasks={tasks} />)} />
-      </Routes>
-    </BrowserRouter>
+    <AIPanelProvider>
+      <BrowserRouter>
+        <Toaster position="top-right" />
+        <Routes>
+          <Route path="/"              element={<LandingPage />} />
+          <Route path="/auth/callback" element={<GoogleCallback />} />
+          <Route path="/login"         element={<Login />} />
+          <Route path="/register"      element={<Register />} />
+          <Route
+            path="/dashboard"
+            element={withLayout(
+              <Dashboard tasks={tasks} setTasks={setTasks} energyBoost={energyBoost} />
+            )}
+          />
+          <Route
+            path="/tasks"
+            element={withLayout(
+              <Tasks
+                tasks={tasks}
+                addTask={addTask}
+                toggleTask={toggleTask}
+                deleteTask={deleteTask}
+              />
+            )}
+          />
+          <Route path="/analytics"     element={withLayout(<Analytics tasks={tasks} />)} />
+          <Route path="/history"       element={withLayout(<History tasks={tasks} />)} />
+          <Route path="/settings"      element={withLayout(<Settings />)} />
+          <Route path="/profile"       element={withLayout(<Profile tasks={tasks} />)} />
+          <Route path="/notifications" element={withLayout(<BellIcon tasks={tasks} />)} />
+        </Routes>
+      </BrowserRouter>
+    </AIPanelProvider>
   );
 }

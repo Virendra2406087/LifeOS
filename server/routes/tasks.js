@@ -2,7 +2,7 @@ router.post("/tasks", async (req, res) => {
 
   try {
 
-    console.log("BODY:", req.body); // debug
+    // console.log("BODY:", req.body); // debug
 
     const task = new Task(req.body);
 

@@ -1,0 +1,451 @@
+/* ---------------------------------------------------------------
+   Design tokens — same system as CallWhatsAppReminder.css
+   (void background, glass surfaces, WhatsApp green + violet accent).
+   Duplicated here (scoped to .war-root) so this component works
+   standalone if it's ever rendered without the sibling card.
+------------------------------------------------------------------ */
+.war-root {
+  --war-void: #0b0b12;
+  --war-glass: rgba(255, 255, 255, 0.045);
+  --war-glass-hover: rgba(255, 255, 255, 0.07);
+  --war-border: rgba(255, 255, 255, 0.09);
+  --war-green: #25d366;
+  --war-violet: #8b7cf6;
+  --war-violet-deep: #6753e8;
+  --war-text: #f2f1f7;
+  --war-muted: #9291a3;
+  --war-faint: #5f5e6d;
+  --war-danger: #ff6b6b;
+  --war-danger-deep: #e14b4b;
+
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  color: var(--war-text);
+}
+
+/* ---------------------------------------------------------------
+   Header
+------------------------------------------------------------------ */
+.war-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.war-header-icon {
+  color: var(--war-green);
+  font-size: 1.05rem;
+}
+.war-header h3 {
+  flex: 1;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.war-count {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 7px;
+  border-radius: 999px;
+  background: var(--war-glass);
+  border: 1px solid var(--war-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--war-muted);
+}
+
+/* ---------------------------------------------------------------
+   Toast
+------------------------------------------------------------------ */
+.war-toast {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 14px;
+  margin-bottom: 14px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  animation: war-slide-down 0.2s ease;
+}
+.war-toast-success {
+  background: rgba(37, 211, 102, 0.1);
+  border: 1px solid rgba(37, 211, 102, 0.28);
+  color: #6fe6a0;
+}
+.war-toast-error {
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid rgba(255, 107, 107, 0.28);
+  color: #ff9d9d;
+}
+@keyframes war-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------------------------------------------------------------
+   Loading / error / empty states
+------------------------------------------------------------------ */
+.war-loading,
+.war-error {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 4px;
+  color: var(--war-muted);
+  font-size: 0.88rem;
+}
+.war-error {
+  color: #ff9d9d;
+}
+.war-error button {
+  margin-left: auto;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--war-border);
+  background: var(--war-glass);
+  color: var(--war-text);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.war-error button:hover {
+  background: var(--war-glass-hover);
+}
+
+.war-spin {
+  animation: war-rotate 0.8s linear infinite;
+}
+@keyframes war-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.war-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 34px 12px;
+  text-align: center;
+  color: var(--war-faint);
+}
+.war-empty svg {
+  font-size: 1.6rem;
+  color: var(--war-border);
+  margin-bottom: 6px;
+}
+.war-empty p {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--war-muted);
+}
+.war-empty span {
+  font-size: 0.78rem;
+}
+
+/* ---------------------------------------------------------------
+   List + item
+------------------------------------------------------------------ */
+.war-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.war-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 13px 14px;
+  border-radius: 14px;
+  background: var(--war-glass);
+  border: 1px solid var(--war-border);
+  transition: background 0.15s ease;
+}
+.war-item:hover {
+  background: var(--war-glass-hover);
+}
+
+.war-avatar {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #06110b;
+  background: linear-gradient(135deg, var(--war-green), var(--war-violet-deep));
+}
+
+.war-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.war-info-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.war-info-top h4 {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--war-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.war-status {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 9px 2px 7px;
+  border-radius: 999px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.war-status i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.war-status-pending {
+  background: rgba(139, 124, 246, 0.12);
+  color: var(--war-violet);
+}
+.war-status-pending i {
+  background: var(--war-violet);
+}
+.war-status-sent {
+  background: rgba(37, 211, 102, 0.12);
+  color: var(--war-green);
+}
+.war-status-sent i {
+  background: var(--war-green);
+}
+.war-status-failed {
+  background: rgba(255, 107, 107, 0.12);
+  color: var(--war-danger);
+}
+.war-status-failed i {
+  background: var(--war-danger);
+}
+
+.war-message {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--war-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.war-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.74rem;
+  color: var(--war-faint);
+}
+.war-countdown {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--war-violet);
+  font-variant-numeric: tabular-nums;
+}
+
+.war-delete {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: var(--war-faint);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.war-delete:hover {
+  background: rgba(255, 107, 107, 0.12);
+  color: var(--war-danger);
+}
+.war-delete:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* ---------------------------------------------------------------
+   Delete confirmation modal
+------------------------------------------------------------------ */
+.war-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(5, 5, 10, 0.6);
+  backdrop-filter: blur(14px);
+  animation: war-fade-in 0.18s ease;
+}
+@keyframes war-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.war-modal {
+  width: 100%;
+  max-width: 360px;
+  border-radius: 22px;
+  padding: 26px 24px 22px;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.02)),
+    var(--war-void);
+  border: 1px solid var(--war-border);
+  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.6);
+  animation: war-pop-in 0.2s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+@keyframes war-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.war-modal-icon {
+  width: 46px;
+  height: 46px;
+  margin: 0 auto 14px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--war-danger);
+  background: radial-gradient(circle at 30% 30%, rgba(255, 107, 107, 0.22), rgba(255, 107, 107, 0.05));
+  box-shadow: 0 0 0 1px rgba(255, 107, 107, 0.22) inset;
+  font-size: 1rem;
+}
+
+.war-modal h4 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+  font-weight: 650;
+}
+.war-modal p {
+  margin: 0 0 22px;
+  font-size: 0.86rem;
+  color: var(--war-muted);
+  line-height: 1.5;
+}
+.war-modal p strong {
+  color: var(--war-text);
+}
+
+.war-modal-actions {
+  display: flex;
+  gap: 10px;
+}
+.war-modal-cancel,
+.war-modal-confirm {
+  flex: 1;
+  padding: 11px 0;
+  border-radius: 12px;
+  font-weight: 650;
+  font-size: 0.86rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+}
+.war-modal-cancel {
+  border: 1px solid var(--war-border);
+  background: transparent;
+  color: var(--war-muted);
+}
+.war-modal-cancel:hover {
+  background: var(--war-glass);
+  color: var(--war-text);
+}
+.war-modal-confirm {
+  border: none;
+  background: linear-gradient(135deg, var(--war-danger), var(--war-danger-deep));
+  color: #1a0505;
+  box-shadow: 0 8px 20px -8px rgba(255, 107, 107, 0.5);
+}
+.war-modal-confirm:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+.war-modal-confirm:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+/* ---------------------------------------------------------------
+   Accessibility
+------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .war-toast,
+  .war-modal-overlay,
+  .war-modal,
+  .war-spin {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+.war-delete:focus-visible,
+.war-error button:focus-visible,
+.war-modal-cancel:focus-visible,
+.war-modal-confirm:focus-visible {
+  outline: 2px solid var(--war-violet);
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------
+   Mobile
+------------------------------------------------------------------ */
+@media (max-width: 480px) {
+  .war-item {
+    padding: 11px 12px;
+  }
+  .war-meta {
+    flex-wrap: wrap;
+    gap: 6px 12px;
+  }
+}

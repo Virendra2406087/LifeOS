@@ -34,7 +34,7 @@ export default function Register() {
     setError("");
 
     try {
-      await API.post("/api/auth/register", {
+      await API.post("/auth/register", {
         name, email, password
       });
 
@@ -50,7 +50,7 @@ export default function Register() {
   };
 
   const handleGoogleLogin = () => {
-    window.open(`${API_URL}/api/auth/google`, "_self");
+    window.open(`${API_URL}/auth/google`, "_self");
   };
 
   return (

@@ -20,7 +20,7 @@ export default function EnergyCard({ tasks, boost = 0 }) {
   let color = "#22c55e";
   let label = "High";
   let emoji = "🚀";
-  let glow  = "rgba(34,197,94,0.35)";
+  let glow  = "rgba(30, 135, 69, 0.35)";
 
   if (percent < 40) {
     color = "#ef4444"; label = "Low";    emoji = "😴"; glow = "rgba(239,68,68,0.35)";

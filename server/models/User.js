@@ -31,6 +31,11 @@ const UserSchema = new mongoose.Schema({
       month: "long", year: "numeric"
     })
   },
+  google: {
+  connected: { type: Boolean, default: false },
+  accessToken: { type: String },
+  refreshToken: { type: String },
+},
 
   avatar: {
     type: String,
@@ -38,5 +43,7 @@ const UserSchema = new mongoose.Schema({
   }
 
 }, { timestamps: true });
+
+
 
 module.exports = mongoose.model("User", UserSchema);

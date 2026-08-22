@@ -2537,3 +2537,1338 @@ body {
 
 @keyframes fadeIn { from{opacity:0} to{opacity:1} }
 @keyframes slideUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+
+.ai-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 18px;
+  padding: 20px;
+  color: white;
+}
+
+.ai-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.ai-icon {
+  color: #ffd54f;
+  font-size: 22px;
+}
+
+.ai-suggestion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ai-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.ai-accept,
+.ai-ignore {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  color: white;
+}
+
+.ai-accept {
+  background: #22c55e;
+}
+
+.ai-ignore {
+  background: #ef4444;
+}
+
+.ai-accept:hover {
+  background: #16a34a;
+}
+
+.ai-ignore:hover {
+  background: #dc2626;
+}
+.smart-scheduler{
+    margin-top:20px;
+}
+
+.scheduler-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.scheduler-slot{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+    margin:20px 0;
+}
+
+.scheduler-slot h2{
+    margin:0;
+    color:#8b5cf6;
+}
+
+.scheduler-slot span{
+    font-size:28px;
+}
+.priority-badge{
+    background:#7c3aed;
+    color:white;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:13px;
+}
+
+.productivity-card{
+    margin-top:20px;
+}
+
+.prediction-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.prediction-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    gap:15px;
+}
+
+.prediction-box{
+    background:rgba(255,255,255,.08);
+    border-radius:14px;
+    padding:20px;
+    text-align:center;
+    transition:.3s;
+}
+
+.prediction-box:hover{
+    transform:translateY(-5px);
+}
+
+.prediction-box h2{
+    margin:0;
+    color:#8b5cf6;
+    font-size:28px;
+}
+
+.prediction-box p{
+    margin-top:10px;
+    color:#ddd;
+    font-size:14px;
+}
+
+.burnout-card{
+    margin-top:20px;
+}
+
+.burnout-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.burnout-progress{
+    width:100%;
+    height:14px;
+    background:rgba(255,255,255,.15);
+    border-radius:20px;
+    overflow:hidden;
+    margin:15px 0;
+}
+
+.burnout-fill{
+    height:100%;
+    transition:.5s;
+}
+
+.burnout-advice{
+    margin-top:15px;
+    padding:12px;
+    border-radius:10px;
+    background:rgba(255,255,255,.08);
+    font-size:14px;
+}
+
+.gmail-card{
+    margin-top:20px;
+}
+
+.gmail-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.gmail-icon{
+    color:#EA4335;
+    font-size:22px;
+}
+
+.gmail-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px;
+    border-radius:12px;
+    margin-bottom:12px;
+    background:rgba(255,255,255,0.05);
+}
+
+.gmail-item h4{
+    margin:0;
+}
+
+.gmail-item p{
+    margin-top:6px;
+    opacity:.8;
+    font-size:14px;
+}
+
+.gmail-tag{
+    background:#8b5cf6;
+    color:white;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+}
+
+.gmail-btn{
+    width:100%;
+    margin-top:15px;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#EA4335;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.gmail-btn:hover{
+    transform:translateY(-2px);
+}
+
+.whatsapp-card{
+    margin-top:20px;
+}
+
+.whatsapp-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.whatsapp-icon{
+    color:#25D366;
+    font-size:22px;
+}
+
+.whatsapp-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px;
+    margin-bottom:12px;
+    border-radius:12px;
+    background:rgba(255,255,255,0.05);
+}
+
+.whatsapp-info h4{
+    margin:0;
+}
+
+.whatsapp-info p{
+    margin:6px 0;
+    opacity:.85;
+}
+
+.whatsapp-info small{
+    color:#cbd5e1;
+}
+
+.whatsapp-actions{
+    display:flex;
+    gap:10px;
+}
+
+.reply-btn,
+.call-btn{
+    border:none;
+    padding:8px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    color:white;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.reply-btn{
+    background:#8b5cf6;
+}
+
+.call-btn{
+    background:#25D366;
+}
+
+.reply-btn:hover,
+.call-btn:hover{
+    transform:translateY(-2px);
+    transition:.3s;
+}
+.planner-card{
+    margin-top:20px;
+}
+
+.planner-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.planner-icon{
+    font-size:22px;
+    color:#8b5cf6;
+}
+
+.planner-list{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.planner-item{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:14px;
+    border-radius:12px;
+    background:rgba(255,255,255,.05);
+}
+
+.planner-circle{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    font-size:18px;
+}
+
+.planner-content h4{
+    margin:0;
+    font-size:16px;
+}
+
+.planner-content small{
+    color:#cbd5e1;
+}
+
+.meeting-card{
+    margin-top:20px;
+}
+
+.meeting-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.meeting-icon{
+    color:#8b5cf6;
+    font-size:22px;
+}
+
+.meeting-item{
+    background:rgba(255,255,255,.05);
+    padding:16px;
+    border-radius:12px;
+    margin-bottom:15px;
+}
+
+.meeting-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:17px;
+    font-weight:600;
+    margin-bottom:10px;
+}
+
+.meeting-item p{
+    margin:8px 0;
+}
+
+.meeting-item small{
+    color:#cbd5e1;
+    line-height:1.6;
+}
+
+.focus-card{
+    margin-top:20px;
+}
+
+.focus-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.focus-icon{
+    color:#8b5cf6;
+    font-size:22px;
+}
+
+.focus-score{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:rgba(255,255,255,.08);
+    padding:12px;
+    border-radius:12px;
+    margin-bottom:20px;
+}
+
+.focus-timer-display{
+    text-align:center;
+    font-size:52px;
+    font-weight:700;
+    margin:20px 0;
+    color:#ffffff;
+}
+
+.focus-buttons{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.focus-buttons button{
+    border:none;
+    border-radius:10px;
+    padding:10px 18px;
+    cursor:pointer;
+    background:linear-gradient(135deg,#7c3aed,#4f46e5);
+    color:white;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    transition:.3s;
+}
+
+.focus-buttons button:hover{
+    transform:translateY(-2px);
+}
+
+.focus-tips{
+    margin-top:25px;
+}
+
+.focus-tips h4{
+    margin-bottom:10px;
+}
+
+.focus-tips ul{
+    padding-left:20px;
+}
+
+.focus-tips li{
+    margin:10px 0;
+    color:#d1d5db;
+}
+
+.ai-priority-card{
+    margin-top:20px;
+}
+
+.priority-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.priority-icon{
+    font-size:22px;
+    color:#8b5cf6;
+}
+
+.priority-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px;
+    margin-bottom:12px;
+    border-radius:12px;
+    background:rgba(255,255,255,.05);
+    transition:.3s;
+}
+
+.priority-item:hover{
+    transform:translateY(-2px);
+}
+
+.priority-item h4{
+    margin:0;
+}
+
+.priority-item small{
+    color:#cbd5e1;
+}
+
+.priority-badge{
+    color:white;
+    padding:8px 14px;
+    border-radius:20px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:13px;
+    font-weight:600;
+}
+
+.priority-footer{
+    margin-top:18px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#cbd5e1;
+    font-size:14px;
+}
+
+.ai-time-card{
+    margin-top:20px;
+}
+
+.time-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.time-icon{
+    color:#6366f1;
+    font-size:22px;
+}
+
+.time-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px;
+    margin-bottom:12px;
+    border-radius:12px;
+    background:rgba(255,255,255,.06);
+    transition:.3s;
+}
+
+.time-item:hover{
+    transform:translateY(-2px);
+}
+
+.time-item h4{
+    margin:0;
+}
+
+.time-item small{
+    color:#cbd5e1;
+}
+
+.time-badge{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    padding:8px 14px;
+    border-radius:20px;
+    background:#6366f1;
+    color:white;
+    font-weight:600;
+}
+
+.auto-scheduler{
+    margin-top:20px;
+}
+
+.scheduler-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.schedule-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:rgba(255,255,255,.06);
+    padding:15px;
+    border-radius:14px;
+    margin-bottom:12px;
+    transition:.3s;
+}
+
+.schedule-row:hover{
+    transform:translateY(-3px);
+}
+
+.schedule-row h4{
+    margin:0;
+}
+
+.schedule-row small{
+    color:#d1d5db;
+}
+
+.duration-tag{
+    background:#7c3aed;
+    color:white;
+    padding:8px 14px;
+    border-radius:20px;
+    font-weight:600;
+}
+.goal-card{
+    margin-top:20px;
+}
+
+.goal-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.goal-input{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    margin-bottom:15px;
+}
+
+.goal-btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    color:white;
+    font-weight:bold;
+    background:linear-gradient(90deg,#7c3aed,#6366f1);
+    margin-bottom:20px;
+}
+
+.goal-week{
+    background:rgba(255,255,255,.06);
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:15px;
+}
+
+.goal-week h4{
+    margin-top:0;
+}
+
+.goal-week ul{
+    padding-left:18px;
+}
+
+.goal-week li{
+    margin:8px 0;
+}
+
+.habit-card{
+    margin-top:20px;
+}
+
+.habit-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.habit-box{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:14px;
+    border-radius:12px;
+    background:rgba(255,255,255,.06);
+    margin-bottom:15px;
+}
+
+.habit-icon{
+    font-size:26px;
+    color:#8b5cf6;
+}
+
+.habit-message{
+    padding:15px;
+    border-radius:12px;
+    background:rgba(124,92,255,.15);
+    color:white;
+    font-weight:500;
+}
+
+.burnout-card{
+    margin-top:20px;
+}
+
+.burnout-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.burnout-score{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.burnout-bar{
+    width:100%;
+    height:12px;
+    background:rgba(255,255,255,.1);
+    border-radius:20px;
+    overflow:hidden;
+    margin-bottom:20px;
+}
+
+.burnout-fill{
+    height:100%;
+    border-radius:20px;
+    transition:.4s;
+}
+
+.burnout-tip{
+    padding:15px;
+    border-radius:12px;
+    background:rgba(255,255,255,.08);
+}
+.planner-card{
+    margin-top:20px;
+}
+
+.planner-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.planner-item{
+    display:flex;
+    gap:15px;
+    padding:15px;
+    margin-bottom:12px;
+    border-radius:12px;
+    background:rgba(255,255,255,.06);
+    transition:.3s;
+}
+
+.planner-item:hover{
+    transform:translateY(-2px);
+    background:rgba(255,255,255,.1);
+}
+
+.planner-time{
+    min-width:110px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:#8b5cf6;
+    font-weight:600;
+}
+
+.planner-content h4{
+    margin:0;
+}
+
+.planner-content small{
+    color:#ccc;
+}
+
+.gmail-card{
+    margin-top:20px;
+}
+
+.gmail-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.meeting-item{
+    display:flex;
+    gap:15px;
+    align-items:center;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:12px;
+    background:rgba(255,255,255,.06);
+}
+
+.meeting-icon{
+    font-size:24px;
+    color:#4285F4;
+}
+
+.meeting-item h4{
+    margin:0;
+}
+
+.meeting-item small{
+    color:#ccc;
+}
+.conflict-card{
+    margin-top:20px;
+}
+
+.conflict-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.conflict-item{
+    padding:16px;
+    margin-bottom:15px;
+    border-radius:12px;
+    background:rgba(255,255,255,.06);
+}
+
+.conflict-item button{
+    margin-top:10px;
+    border:none;
+    padding:8px 16px;
+    border-radius:8px;
+    background:#ef4444;
+    color:white;
+    cursor:pointer;
+}
+
+.conflict-item button:hover{
+    background:#dc2626;
+}
+.rescheduler-card{
+    margin-top:20px;
+}
+
+.rescheduler-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.reschedule-btn{
+    margin-top:15px;
+    padding:12px 18px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(135deg,#6366f1,#8b5cf6);
+    color:white;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    transition:.3s;
+}
+
+.reschedule-btn:hover{
+    transform:translateY(-2px);
+}
+
+.reschedule-message{
+    margin-top:20px;
+    padding:12px;
+    border-radius:10px;
+    background:rgba(34,197,94,.15);
+    color:#22c55e;
+}
+
+.reminder-card{
+    margin-top:20px;
+}
+
+.reminder-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.reminder-buttons{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.reminder-buttons button{
+    border:none;
+    border-radius:10px;
+    padding:12px 18px;
+    cursor:pointer;
+    color:white;
+    background:linear-gradient(135deg,#25D366,#128C7E);
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.reminder-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px;
+    margin-bottom:12px;
+    border-radius:12px;
+    background:rgba(255,255,255,.06);
+}
+
+.reminder-info{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.reminder-info h4{
+    margin:0;
+}
+
+.reminder-info small{
+    color:#cbd5e1;
+}
+
+.voice-card{
+    margin-top:20px;
+}
+
+.voice-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.voice-output{
+    min-height:80px;
+    padding:16px;
+    border-radius:12px;
+    background:rgba(255,255,255,.08);
+    margin-bottom:20px;
+    color:#fff;
+}
+
+.voice-btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    color:white;
+    font-size:16px;
+    font-weight:600;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    background:linear-gradient(135deg,#7c3aed,#2563eb);
+    transition:.3s;
+}
+
+.voice-btn:hover{
+    transform:translateY(-2px);
+}
+
+.copilot-card{
+    margin-top:20px;
+}
+
+.copilot-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.chat-window{
+    height:350px;
+    overflow-y:auto;
+    padding:15px;
+    border-radius:12px;
+    background:rgba(255,255,255,.05);
+}
+
+.chat-message{
+    margin-bottom:15px;
+    padding:12px;
+    border-radius:10px;
+}
+
+.chat-message.AI{
+    background:rgba(124,58,237,.15);
+}
+
+.chat-message.You{
+    background:rgba(59,130,246,.15);
+    text-align:right;
+}
+
+.chat-message p{
+    margin:5px 0 0;
+}
+
+.chat-input{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+}
+
+.chat-input input{
+    flex:1;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    outline:none;
+}
+
+.chat-input button{
+    width:50px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    background:#7c3aed;
+    color:white;
+}
+
+.whatsapp-loading,
+.whatsapp-empty {
+  padding: 16px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.whatsapp-error {
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.whatsapp-error button {
+  background: transparent;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #f87171;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  padding: 8px;
+}
+
+.delete-btn:hover { color: #f87171; }
+
+.reminder-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.reminder-modal {
+  width: 90%;
+  max-width: 420px;
+  padding: 24px;
+}
+
+.reminder-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.reminder-modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.reminder-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.reminder-modal-error {
+  color: #ef4444;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.reminder-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.whatsapp-toast {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.whatsapp-toast-success {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+}
+
+.whatsapp-toast-error {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+}
+
+.whatsapp-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+}
+
+.whatsapp-modal {
+  background: #16161f;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 24px;
+  width: 340px;
+  max-width: 90vw;
+  color: white;
+}
+
+.whatsapp-modal h4 {
+  margin: 0 0 10px;
+  font-size: 16px;
+}
+
+.whatsapp-modal p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 20px;
+}
+
+.whatsapp-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.whatsapp-modal-cancel {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+}
+
+.whatsapp-modal-cancel:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: white;
+}
+
+.whatsapp-modal-confirm {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  background: #ef4444;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.whatsapp-modal-confirm:hover {
+  background: #dc2626;
+}
+
+.gmail-loading, .gmail-empty {
+  padding: 14px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.gmail-error {
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.meeting-extra {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 3px;
+}
+
+.meeting-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 6px;
+  color: #4285F4;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.burnout-header { display: flex; align-items: center; gap: 8px; }
+.burnout-refresh-btn { margin-left: auto; background: none; border: none; cursor: pointer; opacity: 0.7; }
+.burnout-refresh-btn:hover { opacity: 1; }
+.spin { animation: spin 1s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.trend-up { color: #ef4444; margin-left: 6px; font-size: 0.7em; }
+.trend-down { color: #22c55e; margin-left: 6px; font-size: 0.7em; }
+.burnout-meta { display: flex; justify-content: space-between; margin-top: 6px; opacity: 0.7; }
+
+.prediction-header { display: flex; align-items: center; gap: 8px; }
+.prediction-refresh-btn { margin-left: auto; background: none; border: none; cursor: pointer; opacity: 0.7; }
+.prediction-refresh-btn:hover { opacity: 1; }
+.prediction-meta { display: flex; justify-content: space-between; margin-top: 8px; opacity: 0.7; }
+.trend-up { color: #22c55e; margin-left: 6px; font-size: 0.7em; }
+.trend-down { color: #ef4444; margin-left: 6px; font-size: 0.7em; }
+
+.meeting-header { display: flex; align-items: center; gap: 8px; }
+.meeting-refresh-btn { margin-left: auto; background: none; border: none; cursor: pointer; opacity: 0.7; }
+.meeting-refresh-btn:hover { opacity: 1; }
+.meeting-empty { opacity: 0.6; padding: 12px 0; }
+
+.meeting-item { position: relative; opacity: 0.85; transition: opacity 0.3s; }
+.meeting-item.status-ongoing { opacity: 1; }
+.meeting-item.status-ended { opacity: 0.5; }
+
+.status-badge {
+  margin-left: auto; font-size: 0.7em; padding: 2px 8px; border-radius: 10px;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.status-badge.ongoing { background: rgba(16,185,129,0.15); color: #10b981; }
+.status-badge.ended { background: rgba(148,163,184,0.15); color: #94a3b8; }
+.status-badge.soon { background: rgba(245,158,11,0.15); color: #f59e0b; }
+.meeting-title { display: flex; align-items: center; gap: 8px; }
+.gmail-sync-note {
+  display: flex; align-items: center; gap: 6px;
+  opacity: 0.6; margin: 4px 0 10px; font-size: 0.75rem;
+}
+.gmail-badge {
+  background: rgba(234,67,53,0.15); color: #ea4335;
+}
+
+.gmail-item-actions { display: flex; align-items: center; gap: 8px; }
+.gmail-add-meeting-btn {
+  display: flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 6px; border: none; cursor: pointer;
+  background: #a855f7; color: white; font-size: 0.75rem;
+}
+.gmail-add-meeting-btn:hover { background: #9333ea; }
+.gmail-add-meeting-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.gmail-added-badge {
+  display: flex; align-items: center; gap: 4px;
+  color: #10b981; font-size: 0.75rem;
+}
+
+.lifeos-ai-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+
+  background: linear-gradient(
+    135deg,
+    #4285f4 0%,
+    #00bcd4 30%,
+    #8e44ad 65%,
+    #e91e63 100%
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  transition: transform 0.2s ease;
+}
+
+.menu-box:hover .lifeos-ai-icon {
+  transform: scale(1.15) rotate(8deg);
+}

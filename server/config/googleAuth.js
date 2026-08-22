@@ -3,33 +3,58 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const jwt            = require("jsonwebtoken");
 const User           = require("../models/User");
 
-const SECRET = process.env.JWT_SECRET || "lifeos_secret_key";
+if (!process.env.JWT_SECRET) throw new Error("JWT_SECRET is not set");
+const SECRET = process.env.JWT_SECRET;
+const SERVER_URL = process.env.SERVER_URL || "http://localhost:5000";
 
 passport.use(
   new GoogleStrategy(
     {
       clientID:     process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL:  "http://localhost:5000/api/auth/google/callback",
+      callbackURL:  `${SERVER_URL}/api/auth/google/callback`,
+      passReqToCallback: true,
     },
-    async (accessToken, refreshToken, profile, done) => {
+    async (req, accessToken, refreshToken, profile, done) => {
       try {
         const email    = profile.emails[0].value;
         const name     = profile.displayName;
         const googleId = profile.id;
         const avatar   = profile.photos?.[0]?.value || null;
 
-        // Check if user already exists
+        // ── Gmail-connect flow ──
+        if (req.session.gmailConnectUserId) {
+          console.log("Gmail connect flow — session user ID:", req.session.gmailConnectUserId);
+
+          const connectUserId = req.session.gmailConnectUserId;
+          delete req.session.gmailConnectUserId; // clear immediately, before any await — success or failure, it's a one-shot flag now
+
+          const user = await User.findById(connectUserId);
+
+          if (!user) {
+            console.log("No user found in DB for this ID");
+            return done(new Error("User not found for Gmail connect"), null);
+          }
+
+          user.google = {
+            connected: true,
+            accessToken,
+            refreshToken: refreshToken || user.google?.refreshToken,
+          };
+          await user.save();
+
+          return done(null, { user, isConnectFlow: true });
+        }
+
+        // ── Normal login/signup flow ──
         let user = await User.findOne({ email });
 
         if (user) {
-          // ── Returning user — update googleId if not set, keep everything else ──
           if (!user.googleId) {
             user.googleId = googleId;
             await user.save();
           }
         } else {
-          // ── New user — create with Google data ──
           user = await User.create({
             name,
             email,
@@ -42,12 +67,12 @@ passport.use(
           });
         }
 
-        // Generate JWT
         const token = jwt.sign({ id: user._id }, SECRET, { expiresIn: "30d" });
 
-        return done(null, { user, token });
+        return done(null, { user, token, isConnectFlow: false });
 
       } catch (err) {
+        console.error("Google Strategy error:", err.message);
         return done(err, null);
       }
     }

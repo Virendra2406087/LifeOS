@@ -1,0 +1,16 @@
+importance,deadline_hours,duration,category,priority
+3,2,60,1,Critical
+3,5,120,1,Critical
+3,8,90,1,High
+3,24,60,2,High
+2,12,45,2,Medium
+2,36,60,3,Medium
+2,48,90,2,Medium
+1,72,30,3,Low
+1,96,60,3,Low
+1,120,45,4,Low
+3,1,180,1,Critical
+2,8,120,2,High
+1,24,30,4,Medium
+2,72,45,3,Low
+3,6,90,1,High

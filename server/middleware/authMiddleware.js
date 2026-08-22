@@ -2,8 +2,9 @@ const jwt = require("jsonwebtoken");
 
 const SECRET = process.env.JWT_SECRET || "lifeos_secret_key";
 
-module.exports = (req, res, next) => {
-
+const protect = (req, res, next) => {
+  // console.log("Incoming Authorization header:", req.headers.authorization);
+  
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
@@ -24,3 +25,6 @@ module.exports = (req, res, next) => {
   }
 
 };
+
+module.exports = protect;        // supports: const auth = require(...)
+module.exports.protect = protect; // supports: const { protect } = require(...)
