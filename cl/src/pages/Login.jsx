@@ -49,7 +49,7 @@ export default function Login() {
   };
 
   const handleGoogleLogin = () => {
-   window.location.href = `${API_URL}/auth/google`;
+   window.location.href = `${API_URL}/api/auth/google`;
   };
 
   const handleKeyDown = (e) => { if (e.key === "Enter") handleLogin(); };
