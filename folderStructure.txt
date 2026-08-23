@@ -1,58 +1,81 @@
-LifeOS/
-│                 # Express Backend
-├── ml/                      # Python ML Service
+LIFEOS/
+├── cl/                              # Frontend (React + Vite)
+│   ├── public/
+│   │   ├── LifeOS_logo.jpeg
+│   │   └── vite.svg
+│   ├── src/
+│   │   ├── ai/                      # Legacy AI components
+│   │   ├── app/
+│   │   │   ├── api.js
+│   │   │   └── store.js
+│   │   ├── assets/
+│   │   ├── components/
+│   │   │   ├── ai/                  # AI feature components
+│   │   │   ├── calendar/
+│   │   │   ├── common/
+│   │   │   ├── dashboard/
+│   │   │   ├── dragdrop/
+│   │   │   ├── layout/
+│   │   │   └── pomodoro/
+│   │   ├── context/
+│   │   │   ├── AIPanelContext.jsx
+│   │   │   ├── AuthContext.jsx
+│   │   │   └── ThemeContext.jsx
+│   │   ├── hooks/
+│   │   ├── pages/
+│   │   ├── services/                # API service layer
+│   │   ├── styles/
+│   │   ├── utils/
+│   │   ├── App.jsx
+│   │   ├── config.js
+│   │   ├── main.jsx
+│   │   └── routes.jsx
+│   ├── .env
+│   ├── .gitignore
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── README.md
+│   └── vite.config.js
 │
-│   ├── api/                 
+├── server/                          # Backend (Node/Express)
+│   ├── config/
+│   │   ├── db.js
+│   │   ├── googleAuth.js
+│   │   └── socket.js
+│   ├── controllers/
+│   ├── middleware/
+│   │   ├── authMiddleware.js
+│   │   ├── errorMiddleware.js
+│   │   └── validateMiddleware.js
+│   ├── models/
+│   ├── routes/
+│   ├── services/
+│   ├── utils/
+│   ├── .env
+│   ├── .gitignore
+│   ├── package.json
+│   ├── package-lock.json
+│   └── server.js
+│
+├── ml/                               # ML service (Flask + scikit-learn)
+│   ├── api/
 │   │   ├── app.py
-│   │   ├── routes.py
 │   │   ├── modelLoader.py
-│   │  
-│   │
-│   ├── data/                # Training datasets
-│   │   ├── productivity.csv
-│   │   ├── priority.csv
-│   │   ├── duration.csv
-│   │   ├── burnout.csv
-│   │   ├── scheduler.csv
-│   │   ├── habits.csv
-│   │   └── task.csv
-│   │
-│   ├── models/              # Trained models
-│   │   ├── productivity.pkl
-│   │   ├── priority.pkl
-│   │   ├── duration.pkl
-│   │   ├── burnout.pkl
-│   │   ├── scheduler.pkl
-│   │   └── habits.pkl
-│   │   └── habit.pkl
-│   │
-│   ├── training/            # Model training scripts
-│   │   ├── trainProductivity.py
-│   │   ├── trainPriority.py
-│   │   ├── trainDuration.py
-│   │   ├── trainBurnout.py
-│   │   ├── trainScheduler.py
-│   │   └── trainHabits.py
-│   │
-│   ├── prediction/          # Prediction logic
-│   │   ├── predictProductivity.py
-│   │   ├── predictPriority.py
-│   │   ├── predictDuration.py
-│   │   ├── predictBurnout.py
-│   │   ├── predictScheduler.py
-│   │   └── predictHabits.py
-│   │
-│   │
-│   │
-│   │
-│   │
-│   ├── utils/               # Shared utilities
+│   │   └── routes.py
+│   ├── data/                        # Training CSVs
+│   ├── models/                      # Trained .pkl files (6)
+│   ├── prediction/                  # predict*.py per model
+│   ├── training/                    # train*.py per model
+│   ├── utils/
 │   │   ├── featureEngineering.py
 │   │   ├── metrics.py
 │   │   └── preprocess.py
-│   │
-│   │
-│   ├── requirements.txt
-│   ├── Dockerfile
-│   ├── .env
-│   └── README.md
+│   ├── .gitignore
+│   ├── README.md
+│   └── requirements.txt
+│
+├── .vscode/
+├── .gitignore
+└── folderStructure.txt

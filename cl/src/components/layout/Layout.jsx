@@ -1,6 +1,6 @@
 import Navbar        from "./Navbar";
 import Sidebar       from "./Sidebar";
-import LowEnergyPage from "../../pages/LowEnergyPage";
+import LowEnergyPage from "../../pages/Lowenergypage";
 
 export default function Layout({
   tasks = [], setTasks,
