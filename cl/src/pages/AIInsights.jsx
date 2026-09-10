@@ -1,3 +1,5 @@
+import { Brain } from "lucide-react";
+
 export default function AIInsights({ tasks }) {
 
   const completed = tasks.filter(
@@ -8,16 +10,16 @@ export default function AIInsights({ tasks }) {
     ? Math.round((completed / tasks.length) * 100)
     : 0;
 
-  let message = "Good progress 👍";
+  let message = "Good progress ";
 
-  if (score > 80) message = "Amazing productivity 🚀";
-  else if (score < 40) message = "Try focusing more 💡";
+  if (score > 80) message = "Amazing productivity ";
+  else if (score < 40) message = "Try focusing more ";
 
   return (
 
     <div className="glass-card ai-panel">
 
-      <h3>🧠 AI Productivity Insights</h3>
+      <h3><Brain/> AI Productivity Insights</h3>
 
       <p>
         Productivity Score: <b>{score}%</b>

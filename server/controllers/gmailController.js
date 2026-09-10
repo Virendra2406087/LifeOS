@@ -9,9 +9,19 @@ const {
 
 const isGoogleConnected = (user) => Boolean(user?.google?.connected);
 
+/* Every Clerk-authenticated user needs a matching Mongo User record to
+   store Google connection state on. Create one on first touch. */
+const getOrCreateUser = async (clerkId) => {
+  return User.findOneAndUpdate(
+    { clerkId },
+    { $setOnInsert: { clerkId } },
+    { new: true, upsert: true }
+  );
+};
+
 const getConnectionStatus = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id);
+    const user = await getOrCreateUser(req.user.id);
     res.json({ connected: isGoogleConnected(user) });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -20,7 +30,7 @@ const getConnectionStatus = async (req, res) => {
 
 const getSmartTasks = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id);
+    const user = await getOrCreateUser(req.user.id);
     if (!isGoogleConnected(user)) {
       return res.status(400).json({ message: "Gmail not connected", connected: false });
     }
@@ -33,7 +43,7 @@ const getSmartTasks = async (req, res) => {
 
 const getAIMeetings = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id);
+    const user = await getOrCreateUser(req.user.id);
     if (!isGoogleConnected(user)) {
       return res.status(400).json({ message: "Gmail not connected", connected: false });
     }
@@ -46,7 +56,7 @@ const getAIMeetings = async (req, res) => {
 
 const getMeetings = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id);
+    const user = await getOrCreateUser(req.user.id);
     if (!isGoogleConnected(user)) {
       return res.status(400).json({ message: "Gmail not connected", connected: false });
     }
@@ -60,7 +70,7 @@ const getMeetings = async (req, res) => {
 const addMeetingFromEmail = async (req, res) => {
   try {
     const { messageId } = req.params;
-    const user = await User.findById(req.user.id);
+    const user = await getOrCreateUser(req.user.id);
 
     if (!isGoogleConnected(user)) {
       return res.status(400).json({ message: "Gmail not connected", connected: false });
@@ -72,10 +82,6 @@ const addMeetingFromEmail = async (req, res) => {
       return res.status(422).json({ message: "Couldn't determine meeting time from this email" });
     }
 
-    // Use the date Gemini extracted from the email ("YYYY-MM-DD") if valid;
-    // otherwise fall back to today rather than silently discarding it.
-    // Parsed as LOCAL midnight (not new Date("YYYY-MM-DD"), which is UTC
-    // and can shift a day depending on server/DB timezone).
     let meetingDate = new Date();
     if (extracted.date && /^\d{4}-\d{2}-\d{2}$/.test(extracted.date)) {
       const [y, m, d] = extracted.date.split("-").map(Number);
@@ -90,15 +96,12 @@ const addMeetingFromEmail = async (req, res) => {
       endTime: extracted.endTime,
       prep: "",
       follow: "",
-      color: "#a855f7", // purple, matches the AI-detected styling convention
+      color: "#a855f7",
       link: extracted.link,
     });
 
     res.status(201).json({ meeting });
   } catch (err) {
-    // Quota errors get their own status code so the frontend can show an
-    // honest message instead of the generic 500/"couldn't detect a clear
-    // meeting time" — which was actively misleading during debugging.
     if (err.isQuotaError) {
       return res.status(429).json({
         message: "AI quota exceeded for today — try again later or add this meeting manually.",

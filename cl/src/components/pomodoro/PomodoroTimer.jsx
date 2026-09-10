@@ -1,3 +1,4 @@
+import { Timer } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export default function PomodoroTimer() {
@@ -45,10 +46,10 @@ export default function PomodoroTimer() {
   return (
     <div className="glass-card pomodoro">
 
-      <h3>⏱ Focus Timer</h3>
+      <h3><Timer/> Focus Timer</h3>
 
       <p className="mode">
-        {mode === "focus" ? "Focus Time 🔥" : "Break Time ☕"}
+        {mode === "focus" ? "Focus Time " : "Break Time "}
       </p>
 
       <div className="timer">

@@ -1,5 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
+import { useUser, useClerk } from "@clerk/react";
 
 import {
   FaHome,
@@ -23,6 +24,8 @@ export default function Sidebar({
   setTasks,
 }) {
   const navigate = useNavigate();
+  const { user: clerkUser } = useUser();
+  const { signOut } = useClerk();
 
   /* =========================================
      SIDEBAR STATE
@@ -48,12 +51,11 @@ export default function Sidebar({
      USER
   ========================================= */
 
-  const user =
-    JSON.parse(localStorage.getItem("userProfile")) || {
-      name: "Virendra Kumar",
-      email: "virendra@email.com",
-      avatar: null,
-    };
+  const user = {
+    name: clerkUser?.fullName || clerkUser?.username || "Account",
+    email: clerkUser?.primaryEmailAddress?.emailAddress || "",
+    avatar: clerkUser?.imageUrl || null,
+  };
 
   const initials = user.name
     .split(" ")
@@ -67,12 +69,8 @@ export default function Sidebar({
   ========================================= */
 
   const handleSignOut = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userProfile");
-
     closeAIPanel();
-
-    navigate("/login");
+    signOut(() => navigate("/login"));
   };
 
   /* =========================================
@@ -115,10 +113,6 @@ export default function Sidebar({
   };
 
   /* =========================================
-     AI FEATURES
-  ========================================= */
-
-  /* =========================================
      MAIN NAVIGATION
   ========================================= */
 
@@ -143,9 +137,6 @@ export default function Sidebar({
       icon: <FaHistory />,
       label: "History",
     },
-
-
-    
   ];
 
   /* =========================================

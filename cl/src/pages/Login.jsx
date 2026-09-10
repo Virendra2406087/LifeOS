@@ -1,60 +1,76 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSignIn } from "@clerk/react";
 import { FcGoogle } from "react-icons/fc";
-import API from "../app/api";
 
-const API_URL = import.meta.env.VITE_API_URL;
 export default function Login() {
+  const { signIn, fetchStatus } = useSignIn();
+  const navigate = useNavigate();
 
   const [email, setEmail]       = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
-  const [loading, setLoading]   = useState(false);
   const [error, setError]       = useState("");
+
+  const loading = fetchStatus === "fetching";
+
+  const finalizeSignIn = async () => {
+    await signIn.finalize({
+      navigate: async ({ session, decorateUrl }) => {
+        if (session?.currentTask) {
+          console.log(session.currentTask);
+          return;
+        }
+        const url = decorateUrl("/dashboard");
+        if (url.startsWith("http")) {
+          window.location.href = url;
+        } else {
+          navigate(url);
+        }
+      },
+    });
+  };
 
   const handleLogin = async () => {
     if (!email || !password) { setError("Please fill in all fields"); return; }
-
-    setLoading(true);
     setError("");
 
-    try {
-      const res = await API.post("/auth/login", {
-        email, password, remember
-      });
+    const { error } = await signIn.password({ emailAddress: email, password });
 
-      const { token, user } = res.data;
+    if (error) {
+      console.error(error);
+      setError(error.message || "Login failed. Check your credentials.");
+      return;
+    }
 
-      localStorage.clear();
-      localStorage.setItem("token", token);
-      localStorage.setItem("userProfile", JSON.stringify({
-        name:        user.name,
-        email:       user.email,
-        role:        "Active Learner",
-        plan:        "Free Plan",
-        memberSince: user.memberSince,
-        avatar:      user.avatar || null,
-      }));
-
-      // Store remember preference
-      if (remember) localStorage.setItem("rememberMe", "true");
-
-      window.location.href = "/dashboard";
-
-    } catch (err) {
-      console.error(err);
-      setError(err.response?.data?.message || "Login failed. Check your credentials.");
-    } finally {
-      setLoading(false);
+    if (signIn.status === "complete") {
+      await finalizeSignIn();
+    } else if (signIn.status === "needs_second_factor") {
+      setError("This account requires additional verification (MFA).");
+    } else if (signIn.status === "needs_client_trust") {
+      setError("This device needs to be verified. Check your email for a code.");
+    } else {
+      console.error("Sign-in attempt not complete:", signIn);
+      setError("Couldn't complete sign-in. Please try again.");
     }
   };
 
-  const handleGoogleLogin = () => {
-   window.location.href = `${API_URL}/api/auth/google`;
+  const handleGoogleLogin = async () => {
+    setError("");
+
+    const { error } = await signIn.sso({
+      strategy: "oauth_google",
+      redirectCallbackUrl: "/sso-callback",
+      redirectUrl: "/dashboard",
+    });
+
+    if (error) {
+      console.error("Google sign-in failed:", error);
+      setError(error.message || "Google sign-in failed.");
+    }
   };
 
   const handleKeyDown = (e) => { if (e.key === "Enter") handleLogin(); };
-
-  /* Check URL for Google error */
   const urlError = new URLSearchParams(window.location.search).get("error");
 
   return (
@@ -68,7 +84,6 @@ export default function Login() {
           </p>
         </div>
 
-        {/* Error message */}
         {(error || urlError) && (
           <div style={{
             background: "rgba(239,68,68,0.12)",
@@ -98,7 +113,6 @@ export default function Login() {
           autoComplete="current-password"
         />
 
-        {/* Remember me */}
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <input
             type="checkbox"
@@ -107,25 +121,18 @@ export default function Login() {
             onChange={e => setRemember(e.target.checked)}
             style={{ width: 15, height: 15, accentColor: "#7c3aed", cursor: "pointer" }}
           />
-          <label htmlFor="remember" style={{
-            fontSize: 13, color: "rgba(255,255,255,0.55)", cursor: "pointer"
-          }}>
+          <label htmlFor="remember" style={{ fontSize: 13, color: "rgba(255,255,255,0.55)", cursor: "pointer" }}>
             Remember me for 30 days
           </label>
         </div>
 
-        <button
-          className="register-btn"
-          onClick={handleLogin}
-          disabled={loading}
-          style={{ opacity: loading ? 0.7 : 1 }}
-        >
+        <button className="register-btn" onClick={handleLogin} disabled={loading} style={{ opacity: loading ? 0.7 : 1 }}>
           {loading ? "Signing in..." : "Sign In"}
         </button>
 
         <div className="divider">OR</div>
 
-        <button className="google-btn" onClick={handleGoogleLogin}>
+        <button className="google-btn" onClick={handleGoogleLogin} disabled={loading}>
           <FcGoogle size={18} /> Continue with Google
         </button>
 

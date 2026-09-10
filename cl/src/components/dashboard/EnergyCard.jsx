@@ -1,4 +1,7 @@
 // % of energy spent per completed task. Tune this if tasks should feel
+
+import { BatteryLow, Flame, Zap } from "lucide-react";
+
 // more/less tiring — creating tasks never touches energy, only completing them does.
 const ENERGY_COST_PER_TASK = 15;
 
@@ -19,13 +22,13 @@ export default function EnergyCard({ tasks, boost = 0 }) {
 
   let color = "#22c55e";
   let label = "High";
-  let emoji = "🚀";
+  let emoji = <Flame/>;
   let glow  = "rgba(30, 135, 69, 0.35)";
 
   if (percent < 40) {
-    color = "#ef4444"; label = "Low";    emoji = "😴"; glow = "rgba(239,68,68,0.35)";
+    color = "#ef4444"; label = "Low";    emoji = <BatteryLow/>; glow = "rgba(239,68,68,0.35)";
   } else if (percent < 70) {
-    color = "#f59e0b"; label = "Medium"; emoji = "⚡"; glow = "rgba(245,158,11,0.35)";
+    color = "#f59e0b"; label = "Medium"; emoji = <Zap/>; glow = "rgba(245,158,11,0.35)";
   }
 
   const radius = 30;

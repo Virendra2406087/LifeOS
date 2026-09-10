@@ -30,8 +30,8 @@ export default function GmailMeetingSync() {
     }
   };
 
-  const handleConnect = () => {
-    window.location.href = gmailService.connectUrl();
+    const handleConnect = async () => {
+    window.location.href = await gmailService.connectUrl();
   };
 
   const formatRange = (start, end) => {

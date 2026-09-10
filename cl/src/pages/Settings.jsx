@@ -1,3 +1,4 @@
+import { User,Lock, Save } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export default function Settings() {
@@ -25,7 +26,7 @@ export default function Settings() {
   const handleSaveAccount = () => {
     const saved = JSON.parse(localStorage.getItem("userProfile") || "{}");
     localStorage.setItem("userProfile", JSON.stringify({ ...saved, name, email }));
-    alert("Account updated ✅");
+    alert("Account updated ");
   };
 
   const handleSavePassword = () => {
@@ -33,7 +34,7 @@ export default function Settings() {
     if (newPwd.length < 6) { alert("New password must be at least 6 characters"); return; }
     if (newPwd !== confirmPwd) { alert("Passwords don't match"); return; }
     setCurrentPwd(""); setNewPwd(""); setConfirmPwd("");
-    alert("Password updated ✅");
+    alert("Password updated ");
   };
 
   return (
@@ -53,13 +54,13 @@ export default function Settings() {
             className={`settings-tab-btn ${activeTab === "account" ? "active" : ""}`}
             onClick={() => setActiveTab("account")}
           >
-            👤 Account
+            <User/> Account
           </button>
           <button
             className={`settings-tab-btn ${activeTab === "password" ? "active" : ""}`}
             onClick={() => setActiveTab("password")}
           >
-            🔒 Password
+            <Lock/> Password
           </button>
         </div>
 
@@ -108,7 +109,7 @@ export default function Settings() {
               </div>
 
               <button className="settings-save-btn" onClick={handleSaveAccount}>
-                💾 Save Changes
+                <Save/> Save Changes
               </button>
             </>
           )}
@@ -158,7 +159,7 @@ export default function Settings() {
               </div>
 
               <button className="settings-save-btn" style={{ marginTop: 24 }} onClick={handleSavePassword}>
-                🔒 Update Password
+                <Lock/> Update Password
               </button>
             </>
           )}

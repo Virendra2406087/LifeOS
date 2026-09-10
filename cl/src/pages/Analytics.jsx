@@ -13,6 +13,7 @@ import {
 } from "chart.js";
 
 import "./Analytics.css";
+import { ClipboardList, Goal, Hourglass, Timer, Zap } from "lucide-react";
 
 ChartJS.register(
     CategoryScale,
@@ -339,7 +340,7 @@ export default function Analytics({ tasks = [] }) {
 
     const stats = [
         {
-            icon: "📋",
+            icon: <ClipboardList/>,
             label: "Total Tasks",
             value: tasks.length,
             className: "purple",
@@ -353,28 +354,28 @@ export default function Analytics({ tasks = [] }) {
         },
 
         {
-            icon: "⏳",
+            icon: <Hourglass/>,
             label: "Pending",
             value: pendingTasks,
             className: "orange",
         },
 
         {
-            icon: "🎯",
+            icon: <Goal/>,
             label: "Completion Rate",
             value: `${completionRate}%`,
             className: "blue",
         },
 
         {
-            icon: "⚡",
+            icon: <Zap/>,
             label: "Focus Hours",
             value: `${totalFocusHours.toFixed(1)}h`,
             className: "pink",
         },
 
         {
-            icon: "⏱",
+            icon: <Timer/>,
             label: "Avg Task Time",
             value: `${averageTaskTime.toFixed(1)}h`,
             className: "cyan",
@@ -500,12 +501,12 @@ export default function Analytics({ tasks = [] }) {
                 <div className="score-message">
 
                     {productivityScore >= 80
-                        ? "🔥 Excellent productivity"
+                        ? " Excellent productivity"
                         : productivityScore >= 60
-                        ? "🚀 Good progress"
+                        ? " Good progress"
                         : productivityScore >= 40
-                        ? "⚡ Keep improving"
-                        : "🌱 Let's build momentum"}
+                        ? " Keep improving"
+                        : " Let's build momentum"}
 
                 </div>
 

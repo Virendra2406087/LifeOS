@@ -58,10 +58,12 @@ ${taskContext}
     });
 
     // Gemini's chat history format needs role: "user" | "model"
-    const chatHistory = history.map((m) => ({
-      role: m.sender === "You" ? "user" : "model",
-      parts: [{ text: m.text }],
-    }));
+   const chatHistory = history
+      .filter((m) => m.content && m.content.trim())
+      .map((m) => ({
+        role: m.role === "user" ? "user" : "model",
+        parts: [{ text: m.content }],
+      }));
 
     const chat = model.startChat({
       history: [
@@ -143,6 +145,42 @@ Current tasks:
 ${taskSummary}
 `;
 
+    /* ── High temperature = more creative/varied output ── */
+    const model  = genAI.getGenerativeModel({
+      model: "gemini-3.5-flash-lite",
+      generationConfig: {
+        temperature: 0.9,
+        topP:        0.95,
+        topK:        40,
+      }
+    });
+
+    const result = await model.generateContent(prompt);
+    const text   = result.response.text();
+
+    const suggestions = text
+      .split("\n")
+      .map(s => s.replace(/^[-•*0-9. ]+/, "").trim())
+      .filter(Boolean)
+      .slice(0, 3);
+
+    res.json({ suggestions });
+
+  } catch (error) {
+    console.error("Gemini AI ERROR:", error);
+
+    /* ── 429 quota fallback ── */
+    if (error.status === 429) {
+      const fallback = req.body.mode === "low_energy"
+        ? ["Stretch for 5 minutes gently", "Write 3 things you're grateful for", "Tidy one small area nearby"]
+        : ["List tomorrow's top 3 priorities", "Review and close unused browser tabs", "Send one important pending message"];
+      return res.json({ suggestions: fallback });
+    }
+
+    res.status(500).json({ error: "AI suggestion failed" });
+  }
+});
+
 router.post("/goal-plan", async (req, res) => {
   try {
     const { goal } = req.body;
@@ -206,41 +244,6 @@ Example format:
     }
 
     res.status(500).json({ success: false, error: "Failed to generate goal plan" });
-  }
-});
-    /* ── High temperature = more creative/varied output ── */
-    const model  = genAI.getGenerativeModel({
-      model: "gemini-3.5-flash-lite",
-      generationConfig: {
-        temperature: 0.9,
-        topP:        0.95,
-        topK:        40,
-      }
-    });
-
-    const result = await model.generateContent(prompt);
-    const text   = result.response.text();
-
-    const suggestions = text
-      .split("\n")
-      .map(s => s.replace(/^[-•*0-9. ]+/, "").trim())
-      .filter(Boolean)
-      .slice(0, 3);
-
-    res.json({ suggestions });
-
-  } catch (error) {
-    console.error("Gemini AI ERROR:", error);
-
-    /* ── 429 quota fallback ── */
-    if (error.status === 429) {
-      const fallback = req.body.mode === "low_energy"
-        ? ["Stretch for 5 minutes gently", "Write 3 things you're grateful for", "Tidy one small area nearby"]
-        : ["List tomorrow's top 3 priorities", "Review and close unused browser tabs", "Send one important pending message"];
-      return res.json({ suggestions: fallback });
-    }
-
-    res.status(500).json({ error: "AI suggestion failed" });
   }
 });
 

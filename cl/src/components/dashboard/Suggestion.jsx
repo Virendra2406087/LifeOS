@@ -6,16 +6,16 @@ export default function Suggestion({ tasks }) {
   let message = "";
 
   if (total === 0)
-    message = "Start by adding your first task 🚀";
+    message = "Start by adding your first task ";
 
   else if (completed === total)
-    message = "Amazing! You finished everything today 🎉";
+    message = "Amazing! You finished everything today ";
 
   else if (completed / total > 0.7)
-    message = "Great progress! Keep pushing 💪";
+    message = "Great progress! Keep pushing ";
 
   else
-    message = "Focus on finishing one task at a time 🧠";
+    message = "Focus on finishing one task at a time ";
 
   return (
 

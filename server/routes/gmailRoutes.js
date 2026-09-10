@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const jwt = require("jsonwebtoken");
 const passport = require("passport");
+const { verifyToken } = require("@clerk/backend");
 const { protect } = require("../middleware/authMiddleware");
 const {
   getConnectionStatus,
@@ -11,27 +11,30 @@ const {
   addMeetingFromEmail,
 } = require("../controllers/gmailController");
 
-const SECRET = process.env.JWT_SECRET || "lifeos_secret_key";
-
 // Initiates the Gmail/Calendar OAuth consent flow for an already-logged-in
 // user. This is a full-page redirect (window.location.href), so it can't
-// carry an Authorization header — the JWT is passed as a query param and
-// verified here instead, then stashed in session for the OAuth callback.
-router.get("/auth", (req, res, next) => {
+// carry an Authorization header — the Clerk session token is passed as a
+// query param and verified here instead, then stashed in session for the
+// OAuth callback.
+router.get("/auth", async (req, res, next) => {
   const { token } = req.query;
 
   if (!token) {
     return res.status(401).send("Missing auth token");
   }
 
-  let decoded;
+  let clerkId;
   try {
-    decoded = jwt.verify(token, SECRET);
+    const payload = await verifyToken(token, {
+      secretKey: process.env.CLERK_SECRET_KEY,
+    });
+    clerkId = payload.sub;
   } catch (err) {
+    console.error("Clerk token verification failed:", err.message);
     return res.status(401).send("Invalid or expired token");
   }
 
-  req.session.gmailConnectUserId = decoded.id;
+  req.session.gmailConnectUserId = clerkId;
 
   // Explicitly save before handing off to passport's redirect — without
   // this, the session write can race with the OAuth redirect and the
@@ -60,6 +63,5 @@ router.get("/smart-tasks", protect, getSmartTasks);
 router.get("/meetings", protect, getMeetings);
 router.get("/ai-meetings", protect, getAIMeetings);
 router.post("/add-meeting/:messageId", protect, addMeetingFromEmail);
-
 
 module.exports = router;

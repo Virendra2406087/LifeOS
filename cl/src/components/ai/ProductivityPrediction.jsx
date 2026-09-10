@@ -2,6 +2,7 @@ import { FaChartLine } from "react-icons/fa";
 
 import useProductivityPrediction
   from "../../hooks/useProductivityPrediction";
+import { CalendarDays, CircleCheck, Coffee, Timer, Trophy } from "lucide-react";
 
 
 export default function ProductivityPrediction() {
@@ -53,21 +54,21 @@ export default function ProductivityPrediction() {
             <div className="ml-features">
 
               <p>
-                ✅ Completed:
+                <CircleCheck/> Completed:
                 {" "}
                 {features.tasks_completed}
               </p>
 
 
               <p>
-                ⏳ Pending:
+                <Timer/> Pending:
                 {" "}
                 {features.tasks_pending}
               </p>
 
 
               <p>
-                🎯 Focus:
+                <Trophy/> Focus:
                 {" "}
                 {Number(
                   features.focus_hours
@@ -77,14 +78,14 @@ export default function ProductivityPrediction() {
 
 
               <p>
-                ☕ Breaks:
+                <Coffee/> Breaks:
                 {" "}
                 {features.breaks}
               </p>
 
 
               <p>
-                📅 Meetings:
+                <CalendarDays/> Meetings:
                 {" "}
                 {features.meetings}
               </p>

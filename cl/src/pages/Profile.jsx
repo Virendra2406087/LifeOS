@@ -1,3 +1,4 @@
+import { Edit, Trophy, Zap } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export default function Profile({ tasks = [] }) {
@@ -61,7 +62,7 @@ export default function Profile({ tasks = [] }) {
             </label>
             <h3 style={{ fontSize: 18, fontWeight: 700, margin: "14px 0 4px" }}>{user.name}</h3>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", marginBottom: 12 }}>{user.email}</p>
-            <span className="profile-role-badge">⚡ {user.role}</span>
+            <span className="profile-role-badge"><Zap/> {user.role}</span>
           </div>
 
           {/* Single stat — Tasks Created */}
@@ -80,7 +81,7 @@ export default function Profile({ tasks = [] }) {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 28 }}>
             <h2 style={{ fontSize: 20, fontWeight: 700 }}>Personal Information</h2>
             {!editMode
-              ? <button className="profile-edit-btn" onClick={() => setEditMode(true)}>✏️ Edit</button>
+              ? <button className="profile-edit-btn" onClick={() => setEditMode(true)}><Edit/> Edit</button>
               : (
                 <div style={{ display: "flex", gap: 10 }}>
                   <button className="btn-secondary" onClick={() => setEditMode(false)}>Cancel</button>
@@ -123,10 +124,10 @@ export default function Profile({ tasks = [] }) {
           {/* Achievements */}
           <div style={{ marginTop: 32 }}>
             <h3 style={{ fontSize: 13, fontWeight: 700, color: "#f59e0b", letterSpacing: 1, marginBottom: 16 }}>
-              🏆 ACHIEVEMENTS
+              <Trophy/> ACHIEVEMENTS
             </h3>
             <div className="profile-achievements-empty">
-              <div style={{ fontSize: 36, marginBottom: 10 }}>🎯</div>
+              <div style={{ fontSize: 36, marginBottom: 10 }}><Trophy/></div>
               <p style={{ fontWeight: 600, marginBottom: 4 }}>No achievements yet</p>
               <p style={{ fontSize: 13, color: "rgba(255,255,255,0.3)" }}>
                 Add tasks and complete them daily to earn badges

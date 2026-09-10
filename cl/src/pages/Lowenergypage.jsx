@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { FaRobot, FaSyncAlt, FaCheck, FaTimes, FaBatteryQuarter, FaPlay, FaPause, FaRedo, FaForward } from "react-icons/fa";
 import { fetchAISuggestions } from "../services/aiService";
+import { CircleCheck, Goal, Moon, Sprout, Timer, Zap } from "lucide-react";
 
 const QUICK_TIPS = [
   { icon: "💧", tip: "Drink a full glass of water",         boost: 5,  mins: 5  },
@@ -17,7 +18,7 @@ const MOOD_TASKS = [
   { icon: "📝", text: "Write tomorrow's top 3 goals", priority: "blue" },
   { icon: "🌿", text: "Step outside for fresh air",   priority: "gray" },
   { icon: "📧", text: "Clear your email inbox",       priority: "blue" },
-  { icon: "🎯", text: "Review your weekly goals",     priority: "blue" },
+  { icon: <Goal/>, text: "Review your weekly goals",     priority: "blue" },
 ];
 
 const fmt = (s) =>
@@ -68,7 +69,7 @@ export default function LowEnergyPage({ tasks = [], setTasks, earned = [], setEa
   const totalQueueMins = queued.reduce((sum, i) => sum + QUICK_TIPS[i].mins, 0);
 
   const energyColor = energyPct >= 70 ? "#10b981" : energyPct >= 40 ? "#f59e0b" : "#ef4444";
-  const energyLabel = energyPct >= 70 ? "High 🚀" : energyPct >= 40 ? "Medium ⚡" : "Low 😴";
+  const energyLabel = energyPct >= 70 ? "High " : energyPct >= 40 ? "Medium " : "Low ";
 
   // Report the earned tip boost up to the parent (App.jsx's shared energyBoost
   // state) any time it changes, so the Dashboard's EnergyCard stays in sync.
@@ -354,7 +355,7 @@ export default function LowEnergyPage({ tasks = [], setTasks, earned = [], setEa
             fontSize: 12, color: "rgba(255,255,255,0.4)", margin: "0 0 20px",
             display: "flex", alignItems: "center", gap: 6
           }}>
-            <span style={{ fontSize: 14 }}>🌙</span> Low energy session in progress
+            <span style={{ fontSize: 14 }}><Moon/></span> Low energy session in progress
           </p>
 
           {/* Ring */}
@@ -469,7 +470,7 @@ export default function LowEnergyPage({ tasks = [], setTasks, earned = [], setEa
               background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)",
               borderRadius: 12, padding: "14px 8px", textAlign: "center"
             }}>
-              <div style={{ fontSize: 18, marginBottom: 4 }}>⚡</div>
+              <div style={{ fontSize: 18, marginBottom: 4 }}><Zap/></div>
               <div style={{ fontSize: 20, fontWeight: 800 }}>{earned.length}</div>
               <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)" }}>Boosts</div>
             </div>
@@ -477,7 +478,7 @@ export default function LowEnergyPage({ tasks = [], setTasks, earned = [], setEa
               background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)",
               borderRadius: 12, padding: "14px 8px", textAlign: "center"
             }}>
-              <div style={{ fontSize: 18, marginBottom: 4 }}>⏱️</div>
+              <div style={{ fontSize: 18, marginBottom: 4 }}><Timer/></div>
               <div style={{ fontSize: 20, fontWeight: 800 }}>{minsFocused}m</div>
               <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)" }}>Focused</div>
             </div>
@@ -485,7 +486,7 @@ export default function LowEnergyPage({ tasks = [], setTasks, earned = [], setEa
               background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)",
               borderRadius: 12, padding: "14px 8px", textAlign: "center"
             }}>
-              <div style={{ fontSize: 18, marginBottom: 4 }}>🌱</div>
+              <div style={{ fontSize: 18, marginBottom: 4 }}><Sprout/></div>
               <div style={{ fontSize: 20, fontWeight: 800 }}>{queued.length - curStep - 1}</div>
               <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)" }}>Left</div>
             </div>
@@ -503,7 +504,7 @@ export default function LowEnergyPage({ tasks = [], setTasks, earned = [], setEa
           borderRadius: 16, padding: "18px"
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
-            <span style={{ fontSize: 16 }}>⚡</span>
+            <span style={{ fontSize: 16 }}><Zap/></span>
             <h3 style={{ fontSize: 14, fontWeight: 700, margin: 0 }}>Energy boosters</h3>
             <span style={{
               marginLeft: "auto", fontSize: 11, fontWeight: 700,
@@ -640,7 +641,7 @@ export default function LowEnergyPage({ tasks = [], setTasks, earned = [], setEa
           borderRadius: 16, padding: "18px"
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
-            <span style={{ fontSize: 16 }}>🌱</span>
+            <span style={{ fontSize: 16 }}><Sprout/></span>
             <h3 style={{ fontSize: 14, fontWeight: 700, margin: 0 }}>Gentle tasks</h3>
             <span style={{
               marginLeft: "auto", fontSize: 11, fontWeight: 700,
@@ -780,7 +781,7 @@ export default function LowEnergyPage({ tasks = [], setTasks, earned = [], setEa
                 border: "1px solid rgba(255,255,255,0.07)", gap: 12
               }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 10, flex: 1 }}>
-                  <span style={{ fontSize: 16 }}>🌱</span>
+                  <span style={{ fontSize: 16 }}><Sprout/></span>
                   <p style={{ fontSize: 13, color: "rgba(255,255,255,0.85)", margin: 0 }}>{s}</p>
                 </div>
                 <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
@@ -811,7 +812,7 @@ export default function LowEnergyPage({ tasks = [], setTasks, earned = [], setEa
             background: "rgba(34,197,94,0.07)", border: "1px solid rgba(34,197,94,0.18)"
           }}>
             <p style={{ fontSize: 13, color: "#4ade80", margin: 0, fontWeight: 600 }}>
-              ✅ {accepted.length} task{accepted.length > 1 ? "s" : ""} added to your schedule
+              <CircleCheck/> {accepted.length} task{accepted.length > 1 ? "s" : ""} added to your schedule
             </p>
             {accepted.map((a, i) => (
               <p key={i} style={{

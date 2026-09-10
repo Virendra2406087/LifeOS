@@ -1,3 +1,4 @@
+import { Brain, ChartNoAxesColumn, Sparkle, Sparkles, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function LandingPage() {
@@ -39,7 +40,7 @@ export default function LandingPage() {
 
           <Link to="/register">
             <button className="hero-btn start">
-              🚀 Get Started
+               Get Started
             </button>
           </Link>
 
@@ -58,22 +59,22 @@ export default function LandingPage() {
       <div className="features">
 
         <div className="feature-card">
-          🧠 AI Auto Schedule
+          <Brain/> AI Auto Schedule
           <p>Automatically plan your day using AI</p>
         </div>
 
         <div className="feature-card">
-          ⚡ Energy Based Tasks
+          <Zap/> Energy Based Tasks
           <p>Schedule work based on your energy</p>
         </div>
 
         <div className="feature-card">
-          📊 Productivity Analytics
+          <ChartNoAxesColumn/> Productivity Analytics
           <p>Track your daily productivity</p>
         </div>
 
         <div className="feature-card">
-          🤖 AI Life Assistant
+          <Sparkles/> AI Life Assistant
           <p>Get smart task suggestions</p>
         </div>
 

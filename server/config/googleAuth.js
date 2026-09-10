@@ -26,15 +26,14 @@ passport.use(
         if (req.session.gmailConnectUserId) {
           console.log("Gmail connect flow — session user ID:", req.session.gmailConnectUserId);
 
-          const connectUserId = req.session.gmailConnectUserId;
-          delete req.session.gmailConnectUserId; // clear immediately, before any await — success or failure, it's a one-shot flag now
+          const connectClerkId = req.session.gmailConnectUserId;
+          delete req.session.gmailConnectUserId;
 
-          const user = await User.findById(connectUserId);
-
-          if (!user) {
-            console.log("No user found in DB for this ID");
-            return done(new Error("User not found for Gmail connect"), null);
-          }
+          const user = await User.findOneAndUpdate(
+            { clerkId: connectClerkId },
+            { $setOnInsert: { clerkId: connectClerkId } },
+            { new: true, upsert: true }
+          );
 
           user.google = {
             connected: true,
@@ -46,7 +45,9 @@ passport.use(
           return done(null, { user, isConnectFlow: true });
         }
 
-        // ── Normal login/signup flow ──
+        // ── Legacy passport login/signup flow — no longer reachable from
+        // the frontend now that Clerk owns /login and /register, kept only
+        // in case something still hits /api/auth/google directly. ──
         let user = await User.findOne({ email });
 
         if (user) {

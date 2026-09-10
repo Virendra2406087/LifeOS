@@ -1,13 +1,15 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUser, useClerk } from "@clerk/react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NotificationBell from "../../pages/NotificationBell";
+import { BatteryLow, Coffee, Focus, LogOut, Settings, Timer, User, Zap } from "lucide-react";
 
 const MODES = [
-  { id:"Focus Mode", icon:"🎯", label:"Focus",      color:"#7c3aed", glow:"rgba(124,58,237,0.4)",  bg:"linear-gradient(135deg,#7c3aed,#6d28d9)", desc:"Deep work. No distractions." },
-  { id:"Normal",     icon:"⚡", label:"Normal",     color:"#3b82f6", glow:"rgba(59,130,246,0.35)", bg:"linear-gradient(135deg,#3b82f6,#2563eb)", desc:"Balanced productivity."      },
-  { id:"Low Energy", icon:"🌙", label:"Low Energy", color:"#10b981", glow:"rgba(16,185,129,0.3)",  bg:"linear-gradient(135deg,#10b981,#059669)", desc:"Take it easy today."         },
+  { id:"Focus Mode", icon:<Focus/>, label:"Focus",      color:"#7c3aed", glow:"rgba(124,58,237,0.4)",  bg:"linear-gradient(135deg,#7c3aed,#6d28d9)", desc:"Deep work. No distractions." },
+  { id:"Normal",     icon:<Zap/>, label:"Normal",     color:"#3b82f6", glow:"rgba(59,130,246,0.35)", bg:"linear-gradient(135deg,#3b82f6,#2563eb)", desc:"Balanced productivity."      },
+  { id:"Low Energy", icon:<BatteryLow/>, label:"Low Energy", color:"#10b981", glow:"rgba(16,185,129,0.3)",  bg:"linear-gradient(135deg,#10b981,#059669)", desc:"Take it easy today."         },
 ];
 
 // ── Focus Mode Overlay ──
@@ -81,7 +83,7 @@ function FocusOverlay({ onClose }) {
 
         <div style={FO.header}>
           <div>
-            <h2 style={FO.title}>🎯 Focus Mode</h2>
+            <h2 style={FO.title}><Focus/> Focus Mode</h2>
             <p style={FO.subtitle}>Stay locked in. You got this.</p>
           </div>
           <button style={FO.closeBtn} onClick={onClose}>✕</button>
@@ -114,7 +116,7 @@ function FocusOverlay({ onClose }) {
             <div style={{ ...FO.timerDigits, color: session === "work" ? "#a855f7" : "#10b981" }}>
               {mm}:{ss}
             </div>
-            <div style={FO.sessionLabel}>{session === "work" ? "🎯 Focus" : "☕ Break"}</div>
+            <div style={FO.sessionLabel}>{session === "work" ? "Focus" : " Break"}</div>
             <div style={FO.roundsBadge}>Round {rounds + 1}</div>
           </div>
         </div>
@@ -139,8 +141,8 @@ function FocusOverlay({ onClose }) {
         <div style={FO.statsRow}>
           {[
             { icon:"🔥", val:rounds,                    lbl:"Rounds"  },
-            { icon:"⏱",  val:`${focusedMM}:${focusedSS}`, lbl:"Focused" },
-            { icon:"☕",  val:breaksCompleted,           lbl:"Breaks"  },
+            { icon:<Timer/>,  val:`${focusedMM}:${focusedSS}`, lbl:"Focused" },
+            { icon:<Coffee/>,  val:breaksCompleted,           lbl:"Breaks"  },
           ].map(s => (
             <div key={s.lbl} style={FO.statBox}>
               <span style={{ fontSize:20 }}>{s.icon}</span>
@@ -160,6 +162,8 @@ function FocusOverlay({ onClose }) {
 // ── Main Navbar ──
 export default function Navbar({ tasks = [], mode, setMode }) {
   const navigate = useNavigate();
+  const { user: clerkUser } = useUser();
+  const { signOut } = useClerk();
   const [showProfile, setShowProfile] = useState(false);
   const [showFocus,   setShowFocus]   = useState(false);
   const [showModes,   setShowModes]   = useState(false);
@@ -169,10 +173,16 @@ export default function Navbar({ tasks = [], mode, setMode }) {
 
   const activeMode = MODES.find(m => m.id === mode) || MODES[1];
 
-  const user = JSON.parse(localStorage.getItem("userProfile")) || {
-    name: "Virendra Kumar", email: "virendra@email.com", avatar: null,
+  const user = {
+    name: clerkUser?.fullName || clerkUser?.username || "Account",
+    email: clerkUser?.primaryEmailAddress?.emailAddress || "",
+    avatar: clerkUser?.imageUrl || null,
   };
   const initials = user.name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
+
+  const handleSignOut = () => {
+    signOut(() => navigate("/login"));
+  };
 
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth <= 768);
@@ -256,7 +266,7 @@ export default function Navbar({ tasks = [], mode, setMode }) {
               ))}
               {mode === "Focus Mode" && (
                 <button style={NAV.openTimer} onClick={() => { setShowFocus(true); setShowModes(false); }}>
-                  ⏱ Open Focus Timer
+                  <Timer/> Open Focus Timer
                 </button>
               )}
             </div>
@@ -306,8 +316,8 @@ export default function Navbar({ tasks = [], mode, setMode }) {
                 </div>
                 <div style={NAV.divider}/>
                 {[
-                  { icon:"👤", label:"View Profile", path:"/profile"  },
-                  { icon:"⚙️", label:"Settings",     path:"/settings" },
+                  { icon:<User/>, label:"View Profile", path:"/profile"  },
+                  { icon:<Settings/>, label:"Settings",     path:"/settings" },
                 ].map(item => (
                   <button key={item.path} className="nav-profile-item"
                     style={NAV.profileItem}
@@ -321,11 +331,11 @@ export default function Navbar({ tasks = [], mode, setMode }) {
                 <div style={NAV.divider}/>
                 <button className="nav-profile-item"
                   style={{ ...NAV.profileItem, color:"#f87171" }}
-                  onClick={() => { localStorage.clear(); navigate("/login"); }}
+                  onClick={handleSignOut}
                   onMouseEnter={e => e.currentTarget.style.background = "rgba(239,68,68,0.1)"}
                   onMouseLeave={e => e.currentTarget.style.background = "transparent"}
                 >
-                  🚪 Sign Out
+                  <LogOut/> Sign Out
                 </button>
               </div>
             )}
@@ -336,48 +346,48 @@ export default function Navbar({ tasks = [], mode, setMode }) {
   );
 }
 
-// ── Styles ──
+// // ── Styles ──
 const NAV = {
-  bar:          { display:"flex", alignItems:"center", justifyContent:"space-between", paddingRight:20, height:60, position:"sticky", top:0, zIndex:99, background:"rgba(8,8,16,0.9)", backdropFilter:"blur(20px)", borderBottom:"1px solid rgba(255,255,255,0.06)" },
+  bar:          { display:"flex", alignItems:"center", justifyContent:"space-between", paddingRight:20, height:60, position:"sticky", top:0, zIndex:99, background:"rgba(8,6,15,0.9)", backdropFilter:"blur(20px)", borderBottom:"1px solid rgba(255,255,255,0.07)" },
   modePill:     { display:"flex", alignItems:"center", gap:8, borderRadius:100, border:"none", cursor:"pointer", transition:"all 0.3s", fontFamily:"inherit" },
   modeLabel:    { fontSize:13, fontWeight:700, color:"white" },
   modeCaret:    { fontSize:10, color:"rgba(255,255,255,0.7)", marginLeft:2 },
-  modeDropdown: { position:"absolute", top:"calc(100% + 10px)", left:0, background:"rgba(13,13,26,0.98)", border:"1px solid rgba(255,255,255,0.09)", borderRadius:14, padding:10, zIndex:200, boxShadow:"0 20px 50px rgba(0,0,0,0.6)", backdropFilter:"blur(30px)" },
-  modeDropTitle:{ fontSize:10, fontWeight:700, color:"#334155", textTransform:"uppercase", letterSpacing:"0.08em", margin:"4px 8px 10px" },
+  modeDropdown: { position:"absolute", top:"calc(100% + 10px)", left:0, background:"#181628", border:"1px solid rgba(255,255,255,0.1)", borderRadius:14, padding:10, zIndex:200, boxShadow:"0 20px 50px rgba(0,0,0,0.6)", backdropFilter:"blur(30px)" },
+  modeDropTitle:{ fontSize:11, fontWeight:600, color:"rgba(241,238,249,0.32)", letterSpacing:"0.02em", margin:"4px 8px 10px", fontFamily:"'Space Grotesk',sans-serif" },
   modeOpt:      { width:"100%", display:"flex", alignItems:"center", gap:12, padding:"10px 10px", borderRadius:10, border:"1px solid transparent", background:"transparent", cursor:"pointer", transition:"all 0.15s", fontFamily:"inherit", textAlign:"left" },
   modeOptIcon:  { width:40, height:40, borderRadius:10, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 },
-  openTimer:    { width:"100%", marginTop:8, padding:"9px", borderRadius:8, background:"linear-gradient(135deg,rgba(124,58,237,0.2),rgba(99,102,241,0.15))", border:"1px solid rgba(124,58,237,0.3)", color:"#a855f7", fontSize:13, fontWeight:700, cursor:"pointer", fontFamily:"inherit" },
+  openTimer:    { width:"100%", marginTop:8, padding:"9px", borderRadius:8, background:"linear-gradient(135deg,rgba(139,92,246,0.2),rgba(99,102,241,0.15))", border:"1px solid rgba(139,92,246,0.3)", color:"#c4b5fd", fontSize:13, fontWeight:700, cursor:"pointer", fontFamily:"inherit" },
   actions:      { display:"flex", alignItems:"center", gap:8 },
-  avatarBtn:    { width:36, height:36, borderRadius:"50%", border:"2px solid rgba(124,58,237,0.5)", background:"linear-gradient(135deg,#7c3aed,#a855f7)", display:"flex", alignItems:"center", justifyContent:"center", cursor:"pointer", flexShrink:0 },
+  avatarBtn:    { width:36, height:36, borderRadius:"50%", border:"2px solid rgba(139,92,246,0.5)", background:"linear-gradient(135deg,#4285f4,#8b5cf6,#ec4899)", display:"flex", alignItems:"center", justifyContent:"center", cursor:"pointer", flexShrink:0, transition:"border-color 0.2s" },
   initials:     { fontSize:13, fontWeight:700, color:"white" },
-  profileDrop:  { position:"absolute", top:"calc(100% + 10px)", background:"rgba(13,13,26,0.98)", border:"1px solid rgba(255,255,255,0.09)", borderRadius:14, overflow:"hidden", boxShadow:"0 20px 50px rgba(0,0,0,0.6)", zIndex:200 },
+  profileDrop:  { position:"absolute", top:"calc(100% + 10px)", background:"#181628", border:"1px solid rgba(255,255,255,0.1)", borderRadius:14, overflow:"hidden", boxShadow:"0 20px 50px rgba(0,0,0,0.6)", zIndex:200 },
   profileTop:   { display:"flex", alignItems:"center", gap:10, padding:"14px 14px 12px" },
-  profileAvatarLg:{ width:40, height:40, borderRadius:"50%", background:"linear-gradient(135deg,#7c3aed,#a855f7)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 },
-  divider:      { height:1, background:"rgba(255,255,255,0.06)" },
-  profileItem:  { width:"100%", padding:"10px 14px", background:"transparent", border:"none", color:"#94a3b8", fontSize:13, fontWeight:500, cursor:"pointer", textAlign:"left", display:"flex", alignItems:"center", gap:8, transition:"background 0.15s", fontFamily:"inherit" },
+  profileAvatarLg:{ width:40, height:40, borderRadius:"50%", background:"linear-gradient(135deg,#4285f4,#8b5cf6,#ec4899)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 },
+  divider:      { height:1, background:"rgba(255,255,255,0.07)" },
+  profileItem:  { width:"100%", padding:"10px 14px", background:"transparent", border:"none", color:"rgba(241,238,249,0.56)", fontSize:13, fontWeight:500, cursor:"pointer", textAlign:"left", display:"flex", alignItems:"center", gap:8, transition:"background 0.15s", fontFamily:"inherit" },
 };
 
 const FO = {
   overlay:      { position:"fixed", inset:0, background:"rgba(0,0,0,0.85)", backdropFilter:"blur(12px)", zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center", padding:20 },
-  panel:        { width:"100%", maxWidth:440, background:"rgba(13,13,26,0.98)", border:"1px solid rgba(124,58,237,0.25)", borderRadius:24, padding:28, display:"flex", flexDirection:"column", gap:20, boxShadow:"0 32px 80px rgba(0,0,0,0.7)" },
+  panel:        { width:"100%", maxWidth:440, background:"#13111f", border:"1px solid rgba(139,92,246,0.25)", borderRadius:24, padding:28, display:"flex", flexDirection:"column", gap:20, boxShadow:"0 1px 0 rgba(255,255,255,0.05) inset, 0 32px 80px rgba(0,0,0,0.7)" },
   header:       { display:"flex", justifyContent:"space-between", alignItems:"flex-start" },
-  title:        { fontSize:22, fontWeight:800, background:"linear-gradient(135deg,#f1f5f9,#a855f7)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text", marginBottom:4 },
-  subtitle:     { fontSize:13, color:"#64748b" },
-  closeBtn:     { width:32, height:32, borderRadius:8, border:"1px solid rgba(255,255,255,0.1)", background:"rgba(255,255,255,0.05)", color:"#64748b", cursor:"pointer", fontSize:14, display:"flex", alignItems:"center", justifyContent:"center" },
+  title:        { fontSize:22, fontWeight:700, fontFamily:"'Space Grotesk',sans-serif", background:"linear-gradient(135deg,#4285f4,#8b5cf6,#ec4899)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text", marginBottom:4 },
+  subtitle:     { fontSize:13, color:"rgba(241,238,249,0.32)" },
+  closeBtn:     { width:32, height:32, borderRadius:8, border:"1px solid rgba(255,255,255,0.1)", background:"rgba(255,255,255,0.05)", color:"rgba(241,238,249,0.32)", cursor:"pointer", fontSize:14, display:"flex", alignItems:"center", justifyContent:"center" },
   presets:      { display:"flex", gap:8 },
-  presetBtn:    { flex:1, padding:"8px 6px", borderRadius:8, border:"1px solid rgba(255,255,255,0.08)", background:"rgba(255,255,255,0.04)", color:"#64748b", fontSize:12, fontWeight:600, cursor:"pointer", fontFamily:"inherit", transition:"all 0.2s" },
-  presetActive: { background:"rgba(124,58,237,0.2)", border:"1px solid rgba(124,58,237,0.4)", color:"#a855f7" },
+  presetBtn:    { flex:1, padding:"8px 6px", borderRadius:8, border:"1px solid rgba(255,255,255,0.08)", background:"rgba(255,255,255,0.04)", color:"rgba(241,238,249,0.32)", fontSize:12, fontWeight:600, cursor:"pointer", fontFamily:"inherit", transition:"all 0.2s" },
+  presetActive: { background:"rgba(139,92,246,0.2)", border:"1px solid rgba(139,92,246,0.4)", color:"#c4b5fd" },
   timerWrap:    { position:"relative", display:"flex", alignItems:"center", justifyContent:"center", alignSelf:"center" },
   timerText:    { position:"absolute", display:"flex", flexDirection:"column", alignItems:"center", gap:4 },
-  timerDigits:  { fontSize:40, fontWeight:800, lineHeight:1 },
-  sessionLabel: { fontSize:13, color:"#94a3b8", fontWeight:600 },
-  roundsBadge:  { fontSize:11, color:"#475569", padding:"2px 10px", borderRadius:100, background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)" },
+  timerDigits:  { fontSize:42, fontWeight:700, fontFamily:"'Space Grotesk',sans-serif", lineHeight:1, fontVariantNumeric:"tabular-nums" },
+  sessionLabel: { fontSize:13, color:"rgba(241,238,249,0.56)", fontWeight:600 },
+  roundsBadge:  { fontSize:11, color:"rgba(241,238,249,0.32)", padding:"2px 10px", borderRadius:100, background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)" },
   controls:     { display:"flex", alignItems:"center", gap:12, justifyContent:"center" },
   playBtn:      { padding:"12px 36px", borderRadius:12, border:"none", color:"white", fontSize:15, fontWeight:700, cursor:"pointer", fontFamily:"inherit", transition:"all 0.2s" },
-  resetBtn:     { width:44, height:44, borderRadius:10, border:"1px solid rgba(255,255,255,0.1)", background:"rgba(255,255,255,0.05)", color:"#94a3b8", fontSize:18, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" },
+  resetBtn:     { width:44, height:44, borderRadius:10, border:"1px solid rgba(255,255,255,0.1)", background:"rgba(255,255,255,0.05)", color:"rgba(241,238,249,0.56)", fontSize:18, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" },
   statsRow:     { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:10 },
   statBox:      { display:"flex", flexDirection:"column", alignItems:"center", gap:4, padding:"12px 8px", background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.06)", borderRadius:12 },
-  statVal:      { fontSize:20, fontWeight:800, color:"#f1f5f9" },
-  statLbl:      { fontSize:11, color:"#64748b", fontWeight:600 },
-  tip:          { padding:"12px 16px", background:"rgba(124,58,237,0.08)", border:"1px solid rgba(124,58,237,0.2)", borderRadius:10, color:"#94a3b8", fontSize:13, textAlign:"center" },
+  statVal:      { fontSize:20, fontWeight:700, fontFamily:"'Space Grotesk',sans-serif", color:"#f1eef9" },
+  statLbl:      { fontSize:11, color:"rgba(241,238,249,0.32)", fontWeight:600 },
+  tip:          { padding:"12px 16px", background:"rgba(139,92,246,0.08)", border:"1px solid rgba(139,92,246,0.2)", borderRadius:10, color:"rgba(241,238,249,0.56)", fontSize:13, textAlign:"center" },
 };

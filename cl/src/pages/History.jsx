@@ -1,5 +1,6 @@
 import { useState } from "react";
 import CalendarView from "../components/calendar/CalendarView";
+import { CalendarDays, CircleCheck, CircleX, Clock3, Inbox, Pin, Play, Search, Timer } from "lucide-react";
 
 export default function History({ tasks = [] }) {
 
@@ -59,17 +60,17 @@ export default function History({ tasks = [] }) {
   /* ── Get status for each task ── */
   const getStatus = (task) => {
     if (task.completed) return {
-      label: "Completed", color: "#4ade80", icon: "✅",
+      label: "Completed", color: "#4ade80", icon: <CircleCheck/>,
       border: "#22c55e", bg: "rgba(34,197,94,0.06)"
     };
 
     if (isFuture) return {
-      label: "Scheduled", color: "#60a5fa", icon: "📅",
+      label: "Scheduled", color: "#60a5fa", icon: <CalendarDays/>,
       border: "#3b82f6", bg: "rgba(59,130,246,0.04)"
     };
 
     if (isPast) return {
-      label: "Missed", color: "#f87171", icon: "❌",
+      label: "Missed", color: "#f87171", icon: <CircleX/>,
       border: "#ef4444", bg: "rgba(239,68,68,0.06)"
     };
 
@@ -84,7 +85,7 @@ export default function History({ tasks = [] }) {
           const h = Math.floor(diff / 60), m = diff % 60;
           return {
             label: h > 0 ? `Starts in ${h}h ${m}m` : `Starts in ${m}m`,
-            color: "#60a5fa", icon: "⏳",
+            color: "#60a5fa", icon: <Clock3/>,
             border: "#3b82f6", bg: "rgba(59,130,246,0.04)"
           };
         } else if (nowMin < endMin) {
@@ -92,23 +93,23 @@ export default function History({ tasks = [] }) {
           const h = Math.floor(rem / 60), m = rem % 60;
           return {
             label: h > 0 ? `Running · ${h}h ${m}m left` : `Running · ${m}m left`,
-            color: "#4ade80", icon: "▶️",
+            color: "#4ade80", icon: <Play/>,
             border: "#22c55e", bg: "rgba(34,197,94,0.06)"
           };
         } else {
           return {
-            label: "Missed", color: "#f87171", icon: "❌",
+            label: "Missed", color: "#f87171", icon: <CircleX/>,
             border: "#ef4444", bg: "rgba(239,68,68,0.06)"
           };
         }
       }
       return {
-        label: "Pending", color: "#f59e0b", icon: "⏰",
+        label: "Pending", color: "#f59e0b", icon: <Clock3/>,
         border: "#f59e0b", bg: "rgba(245,158,11,0.04)"
       };
     }
 
-    return { label: "—", color: "#6b7280", icon: "📌", border: "#6b7280", bg: "transparent" };
+    return { label: "—", color: "#6b7280", icon: <Pin/>, border: "#6b7280", bg: "transparent" };
   };
 
   /* ── Filter tasks for selected date ── */
@@ -199,8 +200,8 @@ export default function History({ tasks = [] }) {
           <div style={{ display: "flex", gap: 6 }}>
             {[
               { key: "all",    label: `All (${dayTasks.length})` },
-              { key: "done",   label: `✅ Done (${doneCount})` },
-              { key: "missed", label: `❌ Missed (${missedCount})` },
+              { key: "done",   label: ` Done (${doneCount})` },
+              { key: "missed", label: ` Missed (${missedCount})` },
             ].map(({ key, label }) => (
               <button key={key} onClick={() => setFilter(key)} style={{
                 padding: "6px 12px", borderRadius: 8, fontSize: 12,
@@ -224,7 +225,7 @@ export default function History({ tasks = [] }) {
         {filtered.length === 0 ? (
           <div style={{ textAlign: "center", padding: "32px 0" }}>
             <div style={{ fontSize: 36, marginBottom: 10 }}>
-              {dayTasks.length === 0 ? "📭" : "🔍"}
+              {dayTasks.length === 0 ? <Inbox/>: <Search/>}
             </div>
             <p style={{ color: "rgba(255,255,255,0.3)", fontSize: 14 }}>
               {dayTasks.length === 0
@@ -267,7 +268,7 @@ export default function History({ tasks = [] }) {
                     </p>
                     {task.startTime && task.endTime && (
                       <p style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", margin: "3px 0 0" }}>
-                        🕐 {task.startTime} — {task.endTime}
+                        <Timer/> {task.startTime} — {task.endTime}
                       </p>
                     )}
                   </div>

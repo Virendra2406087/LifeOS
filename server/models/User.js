@@ -2,20 +2,25 @@ const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
 
-  name: {
+  // Links this record to the Clerk user (e.g. "user_3IoRTcsEF2...")
+  clerkId: {
     type: String,
-    required: true
+    unique: true,
+    sparse: true, // allows old pre-Clerk records without this field to still exist
+  },
+
+  name: {
+    type: String
   },
 
   email: {
     type: String,
-    required: true,
-    unique: true
+    unique: true,
+    sparse: true
   },
 
   password: {
-    type: String,
-    required: true
+    type: String
   },
 
   // Google OAuth
@@ -24,18 +29,18 @@ const UserSchema = new mongoose.Schema({
     default: null
   },
 
-  // Stored so returning users see their original join date
   memberSince: {
     type: String,
     default: () => new Date().toLocaleDateString("en-US", {
       month: "long", year: "numeric"
     })
   },
+
   google: {
-  connected: { type: Boolean, default: false },
-  accessToken: { type: String },
-  refreshToken: { type: String },
-},
+    connected: { type: Boolean, default: false },
+    accessToken: { type: String },
+    refreshToken: { type: String },
+  },
 
   avatar: {
     type: String,
@@ -43,7 +48,5 @@ const UserSchema = new mongoose.Schema({
   }
 
 }, { timestamps: true });
-
-
 
 module.exports = mongoose.model("User", UserSchema);

@@ -1,3 +1,4 @@
+import { Coffee, Headphones, Zap,SmartphoneOff  } from "lucide-react";
 import { useState, useEffect } from "react";
 import {
   FaBrain,
@@ -82,10 +83,10 @@ export default function AIFocusMode() {
         <h4>AI Recommendations</h4>
 
         <ul>
-          <li>📵 Keep phone away during session.</li>
-          <li>🎧 Listen to instrumental music.</li>
-          <li>☕ Take a 5‑minute break after 25 minutes.</li>
-          <li>🚀 Your productivity is highest before lunch.</li>
+          <li><SmartphoneOff /> Keep phone away during session.</li>
+          <li><Headphones/> Listen to instrumental music.</li>
+          <li><Coffee/> Take a 5‑minute break after 25 minutes.</li>
+          <li><Zap/> Your productivity is highest before lunch.</li>
         </ul>
 
       </div>

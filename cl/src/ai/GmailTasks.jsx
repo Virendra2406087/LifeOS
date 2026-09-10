@@ -33,8 +33,8 @@ export default function GmailTasks() {
     }
   };
 
-  const handleConnect = () => {
-    window.location.href = gmailService.connectUrl();
+    const handleConnect = async () => {
+    window.location.href = await gmailService.connectUrl();
   };
 
   const handleAddMeeting = async (taskId) => {

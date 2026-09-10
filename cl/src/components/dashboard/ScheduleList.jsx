@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import toast from "react-hot-toast";
 import API from "../../app/api";
+import { Bell, CalendarDays, CircleCheck, CircleX, Timer } from "lucide-react";
 
 export default function ScheduleList({ tasks = [], setTasks }) {
 
@@ -195,7 +196,7 @@ export default function ScheduleList({ tasks = [], setTasks }) {
       setExpiredTask(null);
       setRescheduleTask(null);
       setRescheduleDate("");
-      toast.success(`Task rescheduled to ${new Date(newDate).toLocaleDateString("en-GB", { day: "numeric", month: "short" })} 📅`);
+      toast.success(`Task rescheduled to ${new Date(newDate).toLocaleDateString("en-GB", { day: "numeric", month: "short" })} `);
     } catch (err) {
       console.error(err);
       toast.error("Error rescheduling task");
@@ -210,7 +211,7 @@ export default function ScheduleList({ tasks = [], setTasks }) {
         await API.delete(`/api/tasks/${taskId}`);
       }
       setTasks(prev => prev.filter(t => (t._id || t.id) !== taskId));
-      toast.success("Task removed 🗑️");
+      toast.success("Task removed ");
     } catch (err) {
       console.error(err);
       toast.error("Error removing task");
@@ -240,7 +241,7 @@ export default function ScheduleList({ tasks = [], setTasks }) {
 
       {/* Header */}
       <div className="schedule-header">
-        <h3 className="schedule-title">📅 Today's Schedule</h3>
+        <h3 className="schedule-title"><CalendarDays/> Today's Schedule</h3>
         <div className="schedule-tabs">
           <button className={selectedDay === "today" ? "active-tab" : ""} onClick={() => setSelectedDay("today")}>Today</button>
           <button className={selectedDay === "tomorrow" ? "active-tab" : ""} onClick={() => setSelectedDay("tomorrow")}>Tomorrow</button>
@@ -285,7 +286,7 @@ export default function ScheduleList({ tasks = [], setTasks }) {
                         padding: "2px 9px", borderRadius: 99,
                         fontVariantNumeric: "tabular-nums"
                       }}>
-                        ⏱ {countdown.label}
+                        <Timer/> {countdown.label}
                       </span>
                     )}
                   </div>
@@ -307,7 +308,7 @@ export default function ScheduleList({ tasks = [], setTasks }) {
       {confirmTask && (
         <div style={overlay}>
           <div style={modal}>
-            <div style={{ fontSize: 40, marginBottom: 12 }}>⏰</div>
+            <div style={{ fontSize: 40, marginBottom: 12 }}><Timer/></div>
             <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 8 }}>Time not completed!</h3>
             <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", marginBottom: 6 }}>
               <strong style={{ color: "white" }}>"{confirmTask.text}"</strong>
@@ -348,7 +349,7 @@ export default function ScheduleList({ tasks = [], setTasks }) {
       {expiredTask && !rescheduleTask && (
         <div style={overlay}>
           <div style={modal}>
-            <div style={{ fontSize: 40, marginBottom: 12 }}>🔔</div>
+            <div style={{ fontSize: 40, marginBottom: 12 }}><Bell/></div>
             <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 8 }}>Time's up!</h3>
             <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", marginBottom: 20 }}>
               Did you complete <strong style={{ color: "white" }}>"{expiredTask.text}"</strong>?
@@ -363,7 +364,7 @@ export default function ScheduleList({ tasks = [], setTasks }) {
                   color: "white", fontSize: 15, fontWeight: 700, cursor: "pointer"
                 }}
               >
-                ✅ Yes, done!
+                <CircleCheck/> Yes, done!
               </button>
               {/* NO */}
               <button
@@ -374,7 +375,7 @@ export default function ScheduleList({ tasks = [], setTasks }) {
                   color: "white", fontSize: 15, fontWeight: 700, cursor: "pointer"
                 }}
               >
-                ❌ Not yet
+                <CircleX/> Not yet
               </button>
             </div>
           </div>
@@ -387,7 +388,7 @@ export default function ScheduleList({ tasks = [], setTasks }) {
       {rescheduleTask && (
         <div style={overlay}>
           <div style={{ ...modal, maxWidth: 420 }}>
-            <div style={{ fontSize: 40, marginBottom: 12 }}>📅</div>
+            <div style={{ fontSize: 40, marginBottom: 12 }}><CalendarDays/></div>
             <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 6 }}>Reschedule task</h3>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", marginBottom: 24 }}>
               When would you like to reschedule <strong style={{ color: "white" }}>"{rescheduleTask.text}"</strong>?
@@ -405,7 +406,7 @@ export default function ScheduleList({ tasks = [], setTasks }) {
                 display: "flex", alignItems: "center", justifyContent: "center", gap: 8
               }}
             >
-              📆 Tomorrow — {new Date(tomorrowISO).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "short" })}
+              <CalendarDays/> Tomorrow — {new Date(tomorrowISO).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "short" })}
             </button>
 
             {/* Divider */}

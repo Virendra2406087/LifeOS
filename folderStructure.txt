@@ -1,81 +1,281 @@
-LIFEOS/
-├── cl/                              # Frontend (React + Vite)
-│   ├── public/
-│   │   ├── LifeOS_logo.jpeg
-│   │   └── vite.svg
-│   ├── src/
-│   │   ├── ai/                      # Legacy AI components
-│   │   ├── app/
-│   │   │   ├── api.js
-│   │   │   └── store.js
-│   │   ├── assets/
-│   │   ├── components/
-│   │   │   ├── ai/                  # AI feature components
-│   │   │   ├── calendar/
-│   │   │   ├── common/
-│   │   │   ├── dashboard/
-│   │   │   ├── dragdrop/
-│   │   │   ├── layout/
-│   │   │   └── pomodoro/
-│   │   ├── context/
-│   │   │   ├── AIPanelContext.jsx
-│   │   │   ├── AuthContext.jsx
-│   │   │   └── ThemeContext.jsx
-│   │   ├── hooks/
-│   │   ├── pages/
-│   │   ├── services/                # API service layer
-│   │   ├── styles/
-│   │   ├── utils/
-│   │   ├── App.jsx
-│   │   ├── config.js
-│   │   ├── main.jsx
-│   │   └── routes.jsx
-│   ├── .env
-│   ├── .gitignore
-│   ├── eslint.config.js
-│   ├── index.html
-│   ├── package.json
-│   ├── package-lock.json
-│   ├── README.md
-│   └── vite.config.js
-│
-├── server/                          # Backend (Node/Express)
-│   ├── config/
-│   │   ├── db.js
-│   │   ├── googleAuth.js
-│   │   └── socket.js
-│   ├── controllers/
-│   ├── middleware/
-│   │   ├── authMiddleware.js
-│   │   ├── errorMiddleware.js
-│   │   └── validateMiddleware.js
-│   ├── models/
-│   ├── routes/
-│   ├── services/
-│   ├── utils/
-│   ├── .env
-│   ├── .gitignore
-│   ├── package.json
-│   ├── package-lock.json
-│   └── server.js
-│
-├── ml/                               # ML service (Flask + scikit-learn)
-│   ├── api/
-│   │   ├── app.py
-│   │   ├── modelLoader.py
-│   │   └── routes.py
-│   ├── data/                        # Training CSVs
-│   ├── models/                      # Trained .pkl files (6)
-│   ├── prediction/                  # predict*.py per model
-│   ├── training/                    # train*.py per model
-│   ├── utils/
-│   │   ├── featureEngineering.py
-│   │   ├── metrics.py
-│   │   └── preprocess.py
-│   ├── .gitignore
-│   ├── README.md
-│   └── requirements.txt
-│
-├── .vscode/
-├── .gitignore
-└── folderStructure.txt
+cl/
+├─ public/
+│  ├─ LifeOS_logo.jpeg
+│  └─ vite.svg
+├─ src/
+│  ├─ ai/
+│  │  ├─ AIFocusMode.jsx
+│  │  ├─ AISuggestions.jsx
+│  │  ├─ BurnoutCard.jsx
+│  │  ├─ CallReminder.jsx
+│  │  ├─ DailyPlanner.jsx
+│  │  ├─ FocusRecommendation.jsx
+│  │  ├─ GmailTasks.jsx
+│  │  ├─ HabitInsights.jsx
+│  │  ├─ MeetingOptimizer.jsx
+│  │  ├─ ProductivityPrediction.jsx
+│  │  ├─ SmartMeetingAssistant.jsx
+│  │  ├─ SmartNotifications.jsx
+│  │  ├─ SmartPriority.jsx
+│  │  ├─ SmartScheduler.jsx
+│  │  ├─ WhatsAppReminder.css
+│  │  └─ WhatsAppReminder.jsx
+│  ├─ app/
+│  │  ├─ api.js
+│  │  └─ store.js
+│  ├─ assets/
+│  │  └─ react.svg
+│  ├─ components/
+│  │  ├─ ai/
+│  │  │  ├─ AIAutoScheduler.jsx
+│  │  │  ├─ AICopilot.jsx
+│  │  │  ├─ AIGoalPlanner.jsx
+│  │  │  ├─ AIPriorityCard.jsx
+│  │  │  ├─ AITimeEstimator.jsx
+│  │  │  ├─ AIVoiceAssistant.jsx
+│  │  │  ├─ BurnoutPredictor.jsx
+│  │  │  ├─ CallWhatsAppReminder.css
+│  │  │  ├─ CallWhatsAppReminder.jsx
+│  │  │  ├─ ConflictDetector.jsx
+│  │  │  ├─ CreateMeetingForm.jsx
+│  │  │  ├─ GmailMeetingSync.jsx
+│  │  │  ├─ HabitAnalyzer.jsx
+│  │  │  ├─ ProductivityPrediction.jsx
+│  │  │  ├─ ReminderAlarm.jsx
+│  │  │  ├─ SmartDailyPlanner.jsx
+│  │  │  └─ SmartRescheduler.jsx
+│  │  ├─ calendar/
+│  │  │  └─ CalendarView.jsx
+│  │  ├─ common/
+│  │  │  └─ TimePicker.jsx
+│  │  ├─ dashboard/
+│  │  │  ├─ AddTaskForm.jsx
+│  │  │  ├─ AISuggestions.jsx
+│  │  │  ├─ EnergyCard.jsx
+│  │  │  ├─ FocusBar.jsx
+│  │  │  ├─ ProductivityAnalytics.jsx
+│  │  │  ├─ ProductivityGraph.jsx
+│  │  │  ├─ ProductivityHeatmap.jsx
+│  │  │  ├─ ProgressBar.jsx
+│  │  │  ├─ ScheduleList.jsx
+│  │  │  ├─ StreakCard.jsx
+│  │  │  ├─ Suggestion.jsx
+│  │  │  ├─ TaskBoard.jsx
+│  │  │  ├─ TaskItem.jsx
+│  │  │  └─ UrgencyCard.jsx
+│  │  ├─ dragdrop/
+│  │  │  └─ DragDropSchedule.jsx
+│  │  ├─ layout/
+│  │  │  ├─ AIFeaturesPanel.css
+│  │  │  ├─ AIFeaturesPanel.jsx
+│  │  │  ├─ Layout.jsx
+│  │  │  ├─ Navbar.jsx
+│  │  │  ├─ Sidebar.css
+│  │  │  └─ Sidebar.jsx
+│  │  └─ pomodoro/
+│  │     └─ PomodoroTimer.jsx
+│  ├─ context/
+│  │  ├─ AIPanelContext.jsx
+│  │  ├─ AuthContext.jsx
+│  │  └─ ThemeContext.jsx
+│  ├─ hooks/
+│  │  ├─ useAI.js
+│  │  ├─ useAIPriority.js
+│  │  ├─ useNotifications.js
+│  │  ├─ useProductivityPrediction.js
+│  │  └─ useScheduler.js
+│  ├─ pages/
+│  │  ├─ AIInsights.jsx
+│  │  ├─ Analytics.css
+│  │  ├─ Analytics.jsx
+│  │  ├─ Dashboard.css
+│  │  ├─ Dashboard.jsx
+│  │  ├─ GoogleCallback.jsx
+│  │  ├─ History.jsx
+│  │  ├─ LandingPage.jsx
+│  │  ├─ Login.jsx
+│  │  ├─ Lowenergypage.jsx
+│  │  ├─ NotificationBell.jsx
+│  │  ├─ Profile.jsx
+│  │  ├─ Register.jsx
+│  │  ├─ Settings.jsx
+│  │  ├─ StatCard.jsx
+│  │  └─ Tasks.jsx
+│  ├─ services/
+│  │  ├─ aiPriorityService.js
+│  │  ├─ aiService.js
+│  │  ├─ authService.js
+│  │  ├─ calendarService.js
+│  │  ├─ callService.js
+│  │  ├─ copilotService.js
+│  │  ├─ gmailService.js
+│  │  ├─ goalPlannerService.js
+│  │  ├─ meetingService.js
+│  │  ├─ mlService.js
+│  │  ├─ notificationService.js
+│  │  ├─ reminderService.js
+│  │  ├─ statsService.js
+│  │  ├─ taskService.js
+│  │  └─ whatsappService.js
+│  ├─ styles/
+│  │  ├─ dark.css
+│  │  ├─ globals.css
+│  │  └─ light.css
+│  ├─ utils/
+│  │  ├─ aiScheduler.js
+│  │  ├─ aiSuggestions.js
+│  │  ├─ burnout.js
+│  │  ├─ calculateStreak.js
+│  │  ├─ calculateUrgency.js
+│  │  ├─ dragHelper.js
+│  │  ├─ formateTime.js
+│  │  ├─ habitEngine.js
+│  │  ├─ history.js
+│  │  ├─ priorityEngine.js
+│  │  ├─ productivity.js
+│  │  └─ scheduler.js
+│  ├─ App.css
+│  ├─ App.jsx
+│  ├─ config.js
+│  ├─ index.css
+│  ├─ main.jsx
+│  └─ routes.jsx
+├─ .env
+├─ .gitignore
+├─ eslint.config.js
+├─ index.html
+├─ package-lock.json
+├─ package.json
+├─ README.md
+├─ vercel.json
+└─ vite.config.js
+
+
+// ML
+
+ml/
+├─ api/
+│  ├─ __pycache__/
+│  │  └─ modelLoader.cpython-313.pyc
+│  ├─ app.py
+│  ├─ modelLoader.py
+│  └─ routes.py
+├─ data/
+│  ├─ burnout.csv
+│  ├─ duration.csv
+│  ├─ habits.csv
+│  ├─ priority.csv
+│  ├─ productivity.csv
+│  ├─ scheduler.csv
+│  └─ tasks.csv
+├─ models/
+│  ├─ burnout.pkl
+│  ├─ duration.pkl
+│  ├─ habits.pkl
+│  ├─ priority.pkl
+│  ├─ productivity.pkl
+│  └─ scheduler.pkl
+├─ prediction/
+│  ├─ __pycache__/
+│  │  ├─ predictBurnout.cpython-313.pyc
+│  │  ├─ predictDuration.cpython-313.pyc
+│  │  ├─ predictHabits.cpython-313.pyc
+│  │  ├─ predictPriority.cpython-313.pyc
+│  │  ├─ predictProductivity.cpython-313.pyc
+│  │  └─ predictScheduler.cpython-313.pyc
+│  ├─ predictBurnout.py
+│  ├─ predictDuration.py
+│  ├─ predictHabits.py
+│  ├─ predictPriority.py
+│  ├─ predictProductivity.py
+│  └─ predictScheduler.py
+├─ training/
+│  ├─ trainBurnout.py
+│  ├─ trainDuration.py
+│  ├─ trainHabits.py
+│  ├─ trainPriority.py
+│  ├─ trainProductivity.py
+│  └─ trainScheduler.py
+├─ utils/
+│  ├─ featureEngineering.py
+│  ├─ metrics.py
+   └─ preprocess.py
+
+
+// Server 
+
+server/
+├─ config/
+│  ├─ db.js
+│  ├─ googleAuth.js
+│  └─ socket.js
+├─ controllers/
+│  ├─ aiController.js
+│  ├─ aiPriorityController.js
+│  ├─ authController.js
+│  ├─ calendarController.js
+│  ├─ callController.js
+│  ├─ dashboardController.js
+│  ├─ gmailController.js
+│  ├─ googleController.js
+│  ├─ meetingController.js
+│  ├─ mlController.js
+│  ├─ notificationController.js
+│  ├─ statsController.js
+│  ├─ taskController.js
+│  └─ whatsappController.js
+├─ middleware/
+│  ├─ authMiddleware.js
+│  ├─ errorMiddleware.js
+│  └─ validateMiddleware.js
+├─ models/
+│  ├─ Burnout.js
+│  ├─ CallReminder.js
+│  ├─ GmailTask.js
+│  ├─ Habit.js
+│  ├─ Meeting.js
+│  ├─ PomodoroSession.js
+│  ├─ Productivity.js
+│  ├─ ProductivityStat.js
+│  ├─ Reminder.js
+│  ├─ Task.js
+│  ├─ User.js
+│  └─ WhatsAppReminder.js
+├─ routes/
+│  ├─ ai.js
+│  ├─ aiPriorityRoutes.js
+│  ├─ aiRoutes.js
+│  ├─ authRoutes.js
+│  ├─ calendarRoutes.js
+│  ├─ callRoutes.js
+│  ├─ dashboardRoutes.js
+│  ├─ gmailRoutes.js
+│  ├─ meetingRoutes.js
+│  ├─ mlRoutes.js
+│  ├─ notificationRoutes.js
+│  ├─ statsRoutes.js
+│  ├─ taskRoutes.js
+│  ├─ tasks.js
+│  └─ whatsappRoutes.js
+├─ services/
+│  ├─ aiService.js
+│  ├─ analyticsService.js
+│  ├─ calendarService.js
+│  ├─ callService.js
+│  ├─ gmailService.js
+│  ├─ googleTaskService.js
+│  ├─ mlService.js
+│  ├─ notificationService.js
+│  ├─ priorityAIService.js
+│  ├─ reminderService.js
+│  ├─ scheduleService.js
+│  └─ whatsappService.js
+├─ utils/
+│  ├─ dateHelper.js
+│  ├─ generateToken.js
+│  └─ priorityHelper.js
+├─ .env
+├─ .gitignore
+├─ package-lock.json
+├─ package.json
+└─ server.js

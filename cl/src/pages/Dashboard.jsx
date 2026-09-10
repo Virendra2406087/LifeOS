@@ -9,6 +9,7 @@ import StreakCard from "../components/dashboard/StreakCard";
 import AddTaskForm from "../components/dashboard/AddTaskForm";
 import { useAIPanel } from "../context/AIPanelContext";
 import WhatsAppReminder from "../ai/WhatsAppReminder";
+import { CalendarDays, Mail, Mic, Timer } from "lucide-react";
 
 export default function Dashboard({
   tasks = [],
@@ -125,7 +126,7 @@ export default function Dashboard({
 
         </button>
         <button onClick={() => openAIPanel("voice")}>
-          🎤 Voice AI
+          <Mic/> Voice AI
         </button>
 
         <button onClick={() => openAIPanel("copilot")}>
@@ -136,7 +137,7 @@ export default function Dashboard({
         </button>
 
         <button onClick={() => openAIPanel("communication")}>
-          📧 Gmail
+          <Mail/> Gmail
         </button>
         {/* Opens the AI panel that lives inside Sidebar.jsx */}
         
@@ -155,7 +156,7 @@ export default function Dashboard({
 
         <div className="stat-card">
   <div className="stat-card-top">
-    <span>📅 Next Event</span>
+    <span><CalendarDays/> Next Event</span>
   </div>
 
   {nextTask ? (
@@ -177,7 +178,7 @@ export default function Dashboard({
               padding: "2px 9px", borderRadius: 99,
               fontVariantNumeric: "tabular-nums"
             }}>
-              ⏱ {countdown.label}
+              <Timer/> {countdown.label}
             </span>
           );
         })()}

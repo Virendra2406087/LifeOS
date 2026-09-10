@@ -20,6 +20,7 @@ import SmartRescheduler from "../ai/SmartRescheduler";
 import CallWhatsAppReminder from "../ai/CallWhatsAppReminder";
 import AIVoiceAssistant from "../ai/AIVoiceAssistant";
 import AICopilot from "../ai/AICopilot";
+import {Brain, CalendarDays, ChartNoAxesColumn, Mail, Mic} from "lucide-react";
 
 /**
  * Sidebar
@@ -39,11 +40,11 @@ const SECTIONS = [
           ✨
         </span>
       ) },
-  { id: "insights", label: "AI Insights", icon: "📊" },
-  { id: "productivity", label: "AI Productivity", icon: "🧠" },
-  { id: "communication", label: "Communication", icon: "📧" },
-  { id: "planning", label: "Planning", icon: "🗓️" },
-  { id: "voice", label: "Voice & Reminders", icon: "🎤" },
+  { id: "insights", label: "AI Insights", icon: <ChartNoAxesColumn/> },
+  { id: "productivity", label: "AI Productivity", icon: <Brain/> },
+  { id: "communication", label: "Communication", icon: <Mail/> },
+  { id: "planning", label: "Planning", icon: <CalendarDays/> },
+  { id: "voice", label: "Voice & Reminders", icon: <Mic/> },
 ];
 
 export default function AIFeaturesPanel({

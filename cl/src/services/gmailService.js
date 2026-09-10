@@ -25,12 +25,12 @@ const gmailService = {
     return data;
   },
 
-  // Full-page redirect — must include the JWT as a query param since a
-  // browser navigation can't carry an Authorization header.
-  connectUrl: () =>
-    `${api.defaults.baseURL}/gmail/auth?token=${localStorage.getItem("token")}`,
+  // Full-page redirect — must include a Clerk session token as a query
+  // param since a browser navigation can't carry an Authorization header.
+  connectUrl: async () => {
+    const token = await window.Clerk?.session?.getToken();
+    return `${api.defaults.baseURL}/gmail/auth?token=${token}`;
+  },
 };
-
-
 
 export default gmailService;
